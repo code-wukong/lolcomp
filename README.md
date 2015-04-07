@@ -1,2 +1,5 @@
 # lolcomp
-Know your win conditions. Know your power spikes.
+Know your counters. Know your power spikes. Win.
+
+# Stack
+Angular and Sass Frontend, Django Backend, Deployment via Heroku
