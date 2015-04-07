@@ -1,0 +1,1 @@
+web: gunicorn lolcomp.wsgi --log-file -
