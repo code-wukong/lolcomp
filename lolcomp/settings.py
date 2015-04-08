@@ -15,17 +15,14 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+SECRET_KEY = os.environ['SECRET_KEY']
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
+if os.environ['ENV_ROLE'] == 'production':
+    DEBUG = False
+else:
+    DEBUG = True
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'v$gep$6iw!)8w+jzs$#e4mo2%hiy8cf6(e=kcavv7@l!*(g6n2'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.lolcomp.net']
 
 
 # Application definition
