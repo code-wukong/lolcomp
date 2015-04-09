@@ -62,3 +62,9 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# local dev environment
+db.sqlite3
+/node_modules/
+/bower_components/
+/.env
