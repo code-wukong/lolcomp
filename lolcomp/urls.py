@@ -2,15 +2,21 @@
 
 from django.conf.urls import include, url
 from django.contrib import admin
-from home import views as views_home
-from sitedown import views as views_sitedown
 
-from django.views.generic.base import RedirectView
+import os
 
-urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'home', views_home.index),
-    url(r'sitedown', views_sitedown.index),
-]
+## SITE_STATUS_FLAG
+# 0 = sitedown
+# 1 = normal
+# 2 = 2x event
 
-#RedirectView.as_view(url='/', permanent=False), name='index'
+if(os.environ.get('SITE_STATUS_FLAG', '') == '0'):
+    urlpatterns = [
+        url(r'', include('sitedown.urls')),
+    ]
+else:
+    urlpatterns = [
+        url(r'^admin/', include(admin.site.urls)),
+        url(r'^$', include('main.urls')),
+    ]
+
