@@ -16,7 +16,10 @@ else:
 SSLIFY_DISABLE = DEBUG
 
 # Allow stage and production host headers
-ALLOWED_HOSTS = ['lolcomp-stage.herokuapp.com', '.lolcomp.net']
+ALLOWED_HOSTS = [
+    os.environ.get('ALLOWED_HOSTS', ''), 
+    '.lolcomp.net'
+]
 
 # Application definition
 INSTALLED_APPS = (
@@ -94,7 +97,7 @@ DATABASES['default'] =  dj_database_url.config()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Static asset configuration
-STATIC_ROOT = 'staticfiles'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATIC_HOST = os.environ.get('DJANGO_STATIC_HOST', '')
 STATIC_URL = STATIC_HOST + '/static/'

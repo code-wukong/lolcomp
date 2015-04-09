@@ -1,0 +1,4 @@
+"Django won’t automatically create the target directory that collectstatic uses, 
+so we recommend adding a dummy file to your repository, as seen here."
+
+https://devcenter.heroku.com/articles/django-assets
