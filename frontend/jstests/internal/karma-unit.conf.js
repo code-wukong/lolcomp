@@ -1,12 +1,12 @@
 module.exports = function(config) {
   config.set({
     files : [
-        'sitedown/static/sitedown.min.js',
+        'internal/static/internal.min.js',
         
         'frontend/jstests/helpers/angular-mocks.js',
         'frontend/jstests/helpers/helpers.js',
         
-        'frontend/jstests/sitedown/unit/**/*.spec.js',
+        'frontend/jstests/internal/unit/**/*.spec.js',
     ],
     basePath: '../../../',
     frameworks: ['jasmine'],

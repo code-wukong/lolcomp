@@ -1,5 +1,75 @@
+/* definitions */
 $color-primary: #27586B;
 
-body {
-    background-color: #fff
+$xs: 567px;
+$sm: 767px;
+$md: 991px;
+$lg: 1199px;
+
+
+/* mixins */
+@mixin border-radius($settings) {
+    -webkit-border-radius: $settings;
+    -moz-border-radius: $settings;
+    -ms-border-radius: $settings;
+    border-radius: $settings;
 }
+@mixin box-shadow($settings) {
+    -webkit-box-shadow: $settings;
+    -moz-box-shadow: $settings;
+    -ms-box-shadow: $settings;
+    box-shadow: $settings;
+}
+@mixin transition($settings) {
+    -webkit-transition: $settings;
+    -moz-transition: $settings;
+    -o-transition: $settings;
+    -ms-transition: $settings;
+    transition: $settings;
+}
+@mixin transform($settings) {
+    -webkit-transform: $settings;
+    -moz-transform: $settings;
+    -ms-transform: $settings;
+    -o-transform: $settings;
+    transform: $settings;
+}
+@mixin linear-gradient($settings) {
+    background: -moz-linear-gradient($settings);
+    background: -webkit-linear-gradient($settings);
+    background: -o-linear-gradient($settings);
+    background: -ms-linear-gradient($settings);
+    background: linear-gradient($settings);
+}
+@mixin opacity($settings) {
+    opacity: $settings;
+	filter: alpha(opacity=($settings*100)); /* IE6+ */
+}
+@mixin background-clip($settings) {
+    -webkit-background-clip: $settings;
+    background-clip: $settings;
+}
+@mixin background-size($settings) {
+    -webkit-background-size: $settings !important;
+    -moz-background-size: $settings !important;
+    -o-background-size: $settings !important;
+    background-size: $settings !important;
+}
+
+/*
+ * Layout
+ * (position, float, clear, display)
+ *
+ * Box Model
+ * (width, height, margin, padding, border)
+ *
+ * Visual
+ * (color, background, box-shadow)
+ *
+ * Typography
+ * (font-size, font-family, text-align, text-transform)
+ *
+ * Misc
+ * (cursor, overflow, z-index, animations)
+ *
+ */

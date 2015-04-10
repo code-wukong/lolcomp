@@ -37,7 +37,6 @@ Code Wukong uses npm and bower and develops on a kubuntu virtual machine with gi
           virtualenv venv  
           source /venv/bin/activate  
           (venv) pip install -r requirements.txt  
-          (venv) foreman start  
 
 6. ##### *Install Ruby and Sass*
   ###### Check if you have sass
@@ -51,6 +50,6 @@ Code Wukong uses npm and bower and develops on a kubuntu virtual machine with gi
 
 ## Notes
 ###### To sass compile, concat, and minify all css/js run the following:   
-    grunt watch:{{app_name}}:dev
+    (venv) grunt watch:{{app_name}}:dev
 ###### To run the django server and watch for changes run the following:
-    python manage.py runserver
+    (venv) python manage.py runserver
