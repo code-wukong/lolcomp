@@ -12,11 +12,13 @@ import os
 
 if(os.environ.get('SITE_STATUS_FLAG', '') == '0'):
     urlpatterns = [
+        url(r'^ws/', include('ws.urls')),
         url(r'', include('sitedown.urls')),
     ]
 else:
     urlpatterns = [
         url(r'^admin/', include(admin.site.urls)),
+        url(r'^ws/', include('ws.urls')),
         url(r'^$', include('main.urls')),
     ]
 
