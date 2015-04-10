@@ -6,45 +6,48 @@ Code Wukong uses npm and bower and develops on a kubuntu virtual machine with gi
 
 1. ##### *How to install npm via nvm*
   ###### Download nvm
-  wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.24.1/install.sh | bash  
+         wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.24.1/install.sh | bash  
   ###### Find the latest version and install
-  nvm ls-remote  
-  nvm install 0.12.2 (0.12.2 is the latest version at time of writing)  
-  ###### Verify node is installed and set default version*
-  node --version  
-  nvm alias default stable  
+         nvm ls-remote  
+         nvm install 0.12.2 (0.12.2 is the latest version at time of writing)  
+  ###### Verify node is installed and set default version
+         node --version  
+         nvm alias default stable  
 
 2. ##### *How to install grunt*
   ###### Install globally
-  npm install -g grunt-cli
+         npm install -g grunt-cli
 
 3. ##### *Get the dev dependencies for this project*
-  ###### First copy file frontend/config/package.json into the project root directory
-  ###### Then from the project root directory, run these commands
-  npm install  
-  npm install -g bower  
-  bower install  
+  ###### from the root directory of this project
+         cp frontend/config/package.json package.json
+         npm install  
+         npm install -g bower  
+         bower install  
 
-4. ##### *From the root project directory, create an empty tmp folder and a .env file with the following*
-  ENV_ROLE=development  
-  SECRET_KEY=local  
-  DJANGO_STATIC_HOST={your cloudfront url} [see guide on settings up](https://whitenoise.readthedocs.org/en/latest/django.html#use-a-content-delivery-network-optional)  
-  SITE_STATUS_FLAG=1  
+4. ##### *Create a .env file with the following in the root project directory*
+         ENV_ROLE=development  
+         SECRET_KEY=local  
+         DJANGO_STATIC_HOST={{your cloudfront url*}}   
+         SITE_STATUS_FLAG=1    
+  *[see this guide on settings up a cloudfront url](https://whitenoise.readthedocs.org/en/latest/django.html#use-a-content-delivery-network-optional)
 
 5. ##### *You will also need a virtualenv*
   ###### from the root directory of this project
-  virtualenv venv  
-  source /venv/bin/activate  
-  (venv) pip install -r requirements.txt  
-  (venv) foreman start  
+          virtualenv venv  
+          source /venv/bin/activate  
+          (venv) pip install -r requirements.txt  
+          (venv) foreman start  
 
 6. ##### *Install Ruby and Sass*
   ###### Check if you have sass
-  sass -v  
-  if not, sudo gem install sass  
+          sass -v  
+  ###### if not, do
+        sudo gem install sass  
   ###### Check if you have ruby
-  ruby -v  
-  if not, sudo apt-get install ruby
+          ruby -v  
+  ###### if not, do
+          sudo apt-get install ruby
 
 ## Notes
 ###### To sass compile, concat, and minify all css/js run the following:   

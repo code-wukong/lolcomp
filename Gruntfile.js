@@ -117,7 +117,7 @@ module.exports = function (grunt) {
             },
         },
         exec: {
-            collectstatic: 'rm -r lolcomp/staticfiles && python manage.py collectstatic --noinput',
+            collectstatic: 'rm -rf lolcomp/staticfiles && python manage.py collectstatic --noinput',
             'create-fake-css-map': 'echo "" > lolcomp/static/sitedown.scss.css.map'
         },
         watch: {

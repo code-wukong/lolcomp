@@ -63,9 +63,11 @@ docs/_build/
 # PyBuilder
 target/
 
+# package.json breaks heroku deployment if in root
+package.json
+
 # local dev environment
 db.sqlite3
-package.json
 /node_modules/
 /bower_components/
 /.env
