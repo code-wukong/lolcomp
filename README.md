@@ -19,12 +19,13 @@ Code Wukong uses npm and bower and develops on a kubuntu virtual machine with gi
   npm install -g grunt-cli
 
 3. ##### *Get the dev dependencies for this project*
-  ###### from the root directory of this project
+  ###### First copy file frontend/config/package.json into the project root directory
+  ###### Then from the project root directory, run these commands
   npm install  
   npm install -g bower  
   bower install  
 
-4. ##### *Create a .env file with the following in the root project directory*
+4. ##### *From the root project directory, create an empty tmp folder and a .env file with the following*
   ENV_ROLE=development  
   SECRET_KEY=local  
   DJANGO_STATIC_HOST={your cloudfront url} [see guide on settings up](https://whitenoise.readthedocs.org/en/latest/django.html#use-a-content-delivery-network-optional)  
