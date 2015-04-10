@@ -19,9 +19,8 @@ module.exports = function (grunt) {
         concat: {
             "copy-js-map": {
                 files: {
-                    'lolcomp/static/angular.min.js.map': [
-                        'frontend/vendor/angular/angular.min.js.map'
-                    ]
+                    'lolcomp/static/angular.min.js.map': 'frontend/vendor/angular/angular.min.js.map',
+                    'lolcomp/static/angular-route.min.js.map': 'frontend/vendor/angular/angular-route.min.js.map'
                 }
             },
             "sitedown-js": {
@@ -69,6 +68,9 @@ module.exports = function (grunt) {
             }
         },
         cssmin: {
+            ooptions: {
+                sourceMap: true
+            },
             "sitedown": {
                 files: {
                     'sitedown/static/sitedown.min.css': [
@@ -115,7 +117,8 @@ module.exports = function (grunt) {
             },
         },
         exec: {
-            collectstatic: 'rm -r lolcomp/staticfiles && python manage.py collectstatic --noinput'
+            collectstatic: 'rm -r lolcomp/staticfiles && python manage.py collectstatic --noinput',
+            'create-fake-css-map': 'echo "" > lolcomp/static/sitedown.scss.css.map'
         },
         watch: {
             options: {
@@ -127,6 +130,7 @@ module.exports = function (grunt) {
                     'frontend/**/*'
                 ],
                 tasks: [
+                    'exec:create-fake-css-map',
                     'concat:copy-js-map',
                     'concat:sitedown-scss',
                     'sass:sitedown',

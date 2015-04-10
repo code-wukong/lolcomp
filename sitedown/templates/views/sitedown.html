@@ -4,13 +4,15 @@
 <html ng-app="sitedown">
     <head>
         <title>Lolcomp - sitedown</title>
+        <base href="/">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="{% static 'sitedown.min.css' %}">
     </head>
-    <body ng-controller=""ParentCtrl">
+    <body ng-controller="ParentCtrl">
         <div>TODO write content sitedown</div>
         
+        <ng-view></ng-view>
         
         <script src="{% static 'sitedown.min.js' %}"></script>
     </body>

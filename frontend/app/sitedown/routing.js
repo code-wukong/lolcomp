@@ -1,6 +1,6 @@
 angular.module('sitedown.routing')
-    .config(['$routeProvider',
-        function ($routeProvider) {
+    .config(['$routeProvider', '$locationProvider',
+        function ($routeProvider, $locationProvider) {
             $routeProvider
 
                 .when('/', {
@@ -11,5 +11,7 @@ angular.module('sitedown.routing')
                 .otherwise({
                     redirectTo: '/'
                 });
+
+            $locationProvider.html5Mode(true)
 
         }]);

@@ -5,5 +5,6 @@ var sitedown = angular.module("sitedown", [
     "sitedown.directives",
 ]);
 
+angular.module("sitedown.routing", ['ngRoute']);
 angular.module("sitedown.controllers", []);
 angular.module("sitedown.directives", []);
