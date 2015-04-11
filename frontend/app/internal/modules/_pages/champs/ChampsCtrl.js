@@ -13,15 +13,18 @@ angular.module('internal.controllers')
                 $scope.panels = {
                     info: {
                         title: "Status",
-                        current: "5.2.1",
+                        current_patch: "5.2.1",
                         latest_patch: "5.2.1",
-                        time_last_update: new Date(),
+                        time_last_updated: new Date(),
+                        time_last_analyzed: new Date(),
                     },
                     update_champs: {
-                        title: "Update Champion Static Data"
+                        title: "Update Champion Static Data",
+                        status: true
                     },
                     analyze_champs: {
-                        title: "Analyze Champion Static Data"
+                        title: "Analyze Champion Static Data",
+                        status: true
                     }
                 }
 

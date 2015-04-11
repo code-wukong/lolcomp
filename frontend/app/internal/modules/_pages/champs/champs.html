@@ -5,27 +5,70 @@
     <div layout="column"
          layout-align="top center"
          layout-fill>
+        
         <lc-panel lc-title="panels.info.title">
             <div layout="row">
                 <div layout="row" layout-align="start center"
                      flex="50">
                     <lc-led class="champs-info-indicator"
-                            lc-red-light="{{panels.info.current !== panels.info.latest_patch}}"
-                            lc-green-light="{{panels.info.current === panels.info.latest_patch}}"></lc-led>
-                    <span flex>Latest Patch: <strong>{{panels.info.latest_patch || '-'}}</strong></span></div>
+                            lc-red-light="{{panels.info.current_patch !== panels.info.latest_patch}}"
+                            lc-green-light="{{panels.info.current_patch === panels.info.latest_patch}}"></lc-led>
+                    <span flex>Lolcomp is on the latest patch</span>
+                </div>
+                <span layout="row" layout-align="start center"
+                      flex="50">Patch Installed:&nbsp;<strong>{{panels.info.current_patch || '-'}}</strong></span>
+            </div>
+        </lc-panel>
+        
+        <lc-panel lc-title="panels.update_champs.title">
+            <div class="champs-row"
+                 layout="row" layout-align="start center">
                 <div layout="row" layout-align="start center"
                      flex="50">
                     <lc-led class="champs-info-indicator"
-                            lc-green-light="true"></lc-led>
-                    <span flex>Time of Last Update: <strong>{{_helpers.format_date(panels.info.time_last_update) || '-'}}</strong></span></div>
+                            lc-green-light="{{panels.update_champs.status === true}}"
+                            lc-red-light="{{panels.update_champs.status === false}}"></lc-led>
+                    <div flex>
+                        <span ng-if="panels.update_champs.status === true">Good</span>
+                        <span ng-if="panels.update_champs.status === false">Current dataset is up to date</span>
+                    </div>
+                </div>
+                <div flex="50">
+                    <md-button class="md-raised champs-button">Update</md-button>
+                </div>
+            </div>
+            <div class="champs-row"
+                 layout="row">
+                <span class="champs-update-no-led"
+                      flex="50">Last Updated: <strong>{{_helpers.format_date(panels.info.time_last_updated)}}</strong>
+                </span>
             </div>
         </lc-panel>
-        <lc-panel lc-title="panels.update_champs.title">
-            test content
-        </lc-panel>
+        
         <lc-panel lc-title="panels.analyze_champs.title">
-            test content
+            <div layout="row" layout-align="start center">
+                <div layout="row" layout-align="start center"
+                     flex="50">
+                    <lc-led class="champs-info-indicator"
+                            lc-green-light="{{panels.analyze_champs.status === true}}"
+                            lc-red-light="{{panels.analyze_champs.status === false}}"></lc-led>
+                    <div flex>
+                        <span ng-if="panels.analyze_champs.status === true">Good</span>
+                        <span ng-if="panels.analyze_champs.status === false">Current dataset needs to be analyzed</span>
+                    </div>
+                </div>
+                <div flex="50">
+                    <md-button class="md-raised champs-button">Analyze</md-button>
+                </div>
+            </div>
+            <div class="champs-row"
+                 layout="row">
+                <span class="champs-update-no-led"
+                      flex="50">Last Updated: <strong>{{_helpers.format_date(panels.info.time_last_analyzed)}}</strong>
+                </span>
+            </div>
         </lc-panel>
+        
     </div>
     <div flex></div>
 </md-content>

@@ -20,10 +20,10 @@
                 <h1 class="md-toolbar-tools">Internal Console</h1>
             </md-toolbar>
             <md-content class="sidebar-content"
-                        layout-padding flex
+                        flex
                         style="background-image: url('{% static 'img/codewukong.png' %}')">
                 <ul class="sidebar-list">
-                    <li class="sidebar-item"
+                    <li class="sidebar-item" ng-class="{ 'sidebar-active' : static.is_active(obj.url) }"
                         ng-repeat="obj in sidebar.model">
                         {% verbatim %}
                         <md-button ng-bind="obj.label"

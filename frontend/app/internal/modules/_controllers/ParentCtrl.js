@@ -1,6 +1,6 @@
 angular.module('internal.controllers')
-    .controller('ParentCtrl', ['$scope', 'LcComms',
-        function ($scope, LcComms) {
+    .controller('ParentCtrl', ['$scope', 'LcComms', '$location',
+        function ($scope, LcComms, $location) {
             var cst;
 
             LcComms.call_ws("ws/cst_internal", {"test": null})
@@ -20,6 +20,9 @@ angular.module('internal.controllers')
                     get_year: function () {
                         var date = new Date();
                         return date.getFullYear();
+                    },
+                    is_active: function (url) {
+                        return ($location.path() === ('/'+url) );
                     }
                 }
                 
