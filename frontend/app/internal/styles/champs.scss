@@ -2,5 +2,10 @@
     height: 100%;
 }
 .champs-content-toolbar {
+    font-family: $font-title;
+    
     z-index: 60;
+}
+.champs-info-indicator {
+    margin: 20px;
 }

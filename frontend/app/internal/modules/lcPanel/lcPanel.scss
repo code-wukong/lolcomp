@@ -1,4 +1,4 @@
-$panel-padding: 6px;
+$panel-padding: 10px;
 
 .lc-panel-container {
     margin: 26px;
@@ -14,9 +14,12 @@ $panel-padding: 6px;
     
     background-color: $color-primary;
     
+    font-family: $font-title;
     font-size: 18px;
     color: #fff;
 }
 .lc-panel-content {
     padding: $panel-padding;
+    
+    font-family: $font-content;
 }

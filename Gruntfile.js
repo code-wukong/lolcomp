@@ -166,7 +166,7 @@ module.exports = function (grunt) {
             "internal-css": {
                 files: {
                     'tmp/internal.css': [
-                        'frontend/vendor/**/*.css',
+                        'frontend/vendor/angular-material/angular-material.min.css',
                         'tmp/internal.scss.css',
                     ]
                 }
@@ -295,10 +295,7 @@ module.exports = function (grunt) {
             }
         },
         exec: {
-            collectstatic: 'rm -rf lolcomp/staticfiles && python manage.py collectstatic --noinput',
-            'create-fake-css-map-sitedown': 'echo "" > lolcomp/static/sitedown.scss.css.map',
-            'create-fake-css-map-main': 'echo "" > lolcomp/static/main.scss.css.map',
-            'create-fake-css-map-internal': 'echo "" > lolcomp/static/internal.scss.css.map',
+            collectstatic: 'rm -rf lolcomp/staticfiles && python manage.py collectstatic --noinput --no-post-process',
         },
         watch: {
             options: {
@@ -310,8 +307,6 @@ module.exports = function (grunt) {
                     'frontend/**/*'
                 ],
                 tasks: [
-                    'exec:create-fake-css-map-sitedown',
-                    'concat:copy-map',
                     'concat:sitedown-scss',
                     'sass:sitedown',
                     'concat:sitedown-css',
@@ -328,7 +323,6 @@ module.exports = function (grunt) {
                     'frontend/**/*'
                 ],
                 tasks: [
-                    'concat:copy-map',
                     'concat:sitedown-scss',
                     'sass:sitedown',
                     'concat:sitedown-css',
@@ -345,8 +339,6 @@ module.exports = function (grunt) {
                     'frontend/**/*'
                 ],
                 tasks: [
-                    'exec:create-fake-css-map-main',
-                    'concat:copy-map',
                     'concat:main-scss',
                     'sass:main',
                     'concat:main-css',
@@ -363,7 +355,6 @@ module.exports = function (grunt) {
                     'frontend/**/*'
                 ],
                 tasks: [
-                    'concat:copy-map',
                     'concat:main-scss',
                     'sass:main',
                     'concat:main-css',
@@ -380,8 +371,6 @@ module.exports = function (grunt) {
                     'frontend/**/*'
                 ],
                 tasks: [
-                    'exec:create-fake-css-map-internal',
-                    'concat:copy-map',
                     'concat:internal-scss',
                     'sass:internal',
                     'concat:internal-css',
@@ -398,7 +387,6 @@ module.exports = function (grunt) {
                     'frontend/**/*'
                 ],
                 tasks: [
-                    'concat:copy-map',
                     'concat:internal-scss',
                     'sass:internal',
                     'concat:internal-css',

@@ -7,7 +7,6 @@ angular.module('internal.controllers')
                 .then(function (data) {
                     cst = $scope.cst = data;
                     initialize();
-                    console.log({"jarvan":data.jarvan})
                 })
                 .catch(function (data) {
                     console.log(data, "catch")

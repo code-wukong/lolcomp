@@ -8,11 +8,14 @@ angular.module('internal.controllers')
                         console.log("Champs Ctrl - online")
                     });
             };
-            
+
             var initialize = function () {
                 $scope.panels = {
                     info: {
-                        title: "Information"
+                        title: "Status",
+                        current: "5.2.1",
+                        latest_patch: "5.2.1",
+                        time_last_update: new Date(),
                     },
                     update_champs: {
                         title: "Update Champion Static Data"
@@ -21,9 +24,20 @@ angular.module('internal.controllers')
                         title: "Analyze Champion Static Data"
                     }
                 }
+
+                $scope._helpers = {
+                    format_date: function (date) {
+                        var obj = new Date(date);
+                        if (obj.toString() === 'Invalid Date')
+                            return '';
+                        else
+                            return obj.toLocaleString();
+                    }
+                }
+
             }
-            
-            
+
+
             initialize();
-            
+
         }]);

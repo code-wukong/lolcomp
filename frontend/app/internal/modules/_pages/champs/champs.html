@@ -6,7 +6,19 @@
          layout-align="top center"
          layout-fill>
         <lc-panel lc-title="panels.info.title">
-            test content
+            <div layout="row">
+                <div layout="row" layout-align="start center"
+                     flex="50">
+                    <lc-led class="champs-info-indicator"
+                            lc-red-light="{{panels.info.current !== panels.info.latest_patch}}"
+                            lc-green-light="{{panels.info.current === panels.info.latest_patch}}"></lc-led>
+                    <span flex>Latest Patch: <strong>{{panels.info.latest_patch || '-'}}</strong></span></div>
+                <div layout="row" layout-align="start center"
+                     flex="50">
+                    <lc-led class="champs-info-indicator"
+                            lc-green-light="true"></lc-led>
+                    <span flex>Time of Last Update: <strong>{{_helpers.format_date(panels.info.time_last_update) || '-'}}</strong></span></div>
+            </div>
         </lc-panel>
         <lc-panel lc-title="panels.update_champs.title">
             test content
