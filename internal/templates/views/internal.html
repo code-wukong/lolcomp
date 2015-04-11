@@ -22,9 +22,9 @@
             <md-content class="sidebar-content"
                         layout-padding flex
                         style="background-image: url('{% static 'img/codewukong.png' %}')">
-                <ul class="sidebar-list"
-                    ng-repeat="obj in sidebar.model">
-                    <li class="sidebar-item">
+                <ul class="sidebar-list">
+                    <li class="sidebar-item"
+                        ng-repeat="obj in sidebar.model">
                         {% verbatim %}
                         <md-button ng-bind="obj.label"
                                    ng-href="{{obj.url}}"

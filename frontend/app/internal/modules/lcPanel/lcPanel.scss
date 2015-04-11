@@ -1,0 +1,22 @@
+$panel-padding: 6px;
+
+.lc-panel-container {
+    margin: 26px;
+    margin-bottom: 13px;
+    border: 1px solid $color-primary;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.lc-panel-title {
+    margin: 0;
+    padding: $panel-padding;
+    border-bottom: 1px solid $color-primary;
+    
+    background-color: $color-primary;
+    
+    font-size: 18px;
+    color: #fff;
+}
+.lc-panel-content {
+    padding: $panel-padding;
+}
