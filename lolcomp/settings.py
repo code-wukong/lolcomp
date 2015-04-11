@@ -31,6 +31,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'sitedown',
     'main',
+    'internal',
 )
 
 MIDDLEWARE_CLASSES = (

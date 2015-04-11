@@ -1,0 +1,18 @@
+{% load static from staticfiles %}
+
+<!DOCTYPE html>
+<html ng-app="internal">
+    <head>
+        <title>Lolcomp</title>
+        <base href="/">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{% static 'internal.min.css' %}">
+    </head>
+    <body ng-controller="ParentCtrl">
+        
+        <ng-view></ng-view>
+        
+        <script src="{% static 'internal.min.js' %}"></script>
+    </body>
+</html>

@@ -19,6 +19,7 @@ else:
     urlpatterns = [
         url(r'^admin/', include(admin.site.urls)),
         url(r'^ws/', include('ws.urls')),
+        url(r'^internal/', include('internal.urls')),
         url(r'^$', include('main.urls')),
     ]
 

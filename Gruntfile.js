@@ -16,7 +16,12 @@ module.exports = function (grunt) {
                 singleRun: false
             },
             "main": {
-                configFile: 'frontend/jstests/sitedown/karma-unit.conf.js',
+                configFile: 'frontend/jstests/main/karma-unit.conf.js',
+                autoWatch: true,
+                singleRun: false
+            },
+            "internal": {
+                configFile: 'frontend/jstests/internal/karma-unit.conf.js',
                 autoWatch: true,
                 singleRun: false
             }
@@ -118,10 +123,56 @@ module.exports = function (grunt) {
                         'tmp/main.css'
                     ]
                 }
+            },
+            
+            // app internal
+            "internal-js": {
+                files: {
+                    'tmp/internal.js': [
+                        'frontend/vendor/angular/angular.min.js',
+                        'frontend/vendor/**/*.js',
+                        'frontend/app/internal/app.js',
+                        'tmp/internal-templates.js',
+                        'frontend/app/internal/routing.js',
+                        'frontend/app/internal/**/*.js'
+                    ]
+                }
+            },
+            "internal-nomin-js": {
+                files: {
+                    // destination : [source1, source2, ...]
+                    'internal/static/internal.min.js': [
+                        'tmp/internal.js'
+                    ]
+                }
+            },
+            "internal-scss": {
+                files: {
+                    'tmp/internal.scss': [
+                        'frontend/app/internal/styles/base.scss',
+                        'lolcomp/static/style.css',
+                        'frontend/app/internal/**/*.scss',
+                    ]
+                }
+            },
+            "internal-css": {
+                files: {
+                    'tmp/internal.css': [
+                        'frontend/vendor/**/*.css',
+                        'tmp/internal.scss.css',
+                    ]
+                }
+            },
+            "internal-nomin-css": {
+                files: {
+                    'internal/static/internal.min.css': [
+                        'tmp/internal.css'
+                    ]
+                }
             }
         },
         cssmin: {
-            ooptions: {
+            options: {
                 sourceMap: true
             },
             "sitedown": {
@@ -135,6 +186,13 @@ module.exports = function (grunt) {
                 files: {
                     'main/static/main.min.css': [
                         'tmp/main.css'
+                    ]
+                }
+            },
+            "internal": {
+                files: {
+                    'internal/static/internal.min.css': [
+                        'tmp/internal.css'
                     ]
                 }
             }
@@ -155,6 +213,14 @@ module.exports = function (grunt) {
                 },
                 files: {
                     'tmp/main.scss.css': 'tmp/main.scss'
+                }
+            },
+            "internal": {
+                options: {
+                    style: 'string'
+                },
+                files: {
+                    'tmp/internal.scss.css': 'tmp/internal.scss'
                 }
             }
         },
@@ -181,6 +247,17 @@ module.exports = function (grunt) {
                     ]
                 }
             },
+            "internal": {
+                options: {
+                    base: 'frontend/app/internal/modules',
+                    module: 'internal.templates'
+                },
+                files: {
+                    'tmp/internal-templates.js': [
+                        'frontend/app/internal/modules/**/*.html'
+                    ]
+                }
+            }
         },
         uglify: {
             options: {
@@ -201,11 +278,19 @@ module.exports = function (grunt) {
                     ]
                 }
             },
+            "internal": {
+                files: {
+                    'internal/static/internal.min.js': [
+                        'tmp/internal.js'
+                    ]
+                }
+            }
         },
         exec: {
             collectstatic: 'rm -rf lolcomp/staticfiles && python manage.py collectstatic --noinput',
             'create-fake-css-map-sitedown': 'echo "" > lolcomp/static/sitedown.scss.css.map',
             'create-fake-css-map-main': 'echo "" > lolcomp/static/main.scss.css.map',
+            'create-fake-css-map-internal': 'echo "" > lolcomp/static/internal.scss.css.map',
         },
         watch: {
             options: {
@@ -281,6 +366,41 @@ module.exports = function (grunt) {
                     'exec:collectstatic'
                 ]
             },
+            "internal-dev": {
+                files: [
+                    'Gruntfile.js',
+                    'frontend/**/*'
+                ],
+                tasks: [
+                    'exec:create-fake-css-map-internal',
+                    'concat:copy-js-map',
+                    'concat:internal-scss',
+                    'sass:internal',
+                    'concat:internal-css',
+                    'concat:internal-nomin-css',
+                    'html2js:internal',
+                    'concat:internal-js',
+                    'concat:internal-nomin-js',
+                    'exec:collectstatic'
+                ]
+            },
+            "internal-prod": {
+                files: [
+                    'Gruntfile.js',
+                    'frontend/**/*'
+                ],
+                tasks: [
+                    'concat:copy-js-map',
+                    'concat:internal-scss',
+                    'sass:internal',
+                    'concat:internal-css',
+                    'cssmin:internal',
+                    'html2js:internal',
+                    'concat:internal-js',
+                    'uglify:internal',
+                    'exec:collectstatic'
+                ]
+            }
         }
     });
 
@@ -293,4 +413,9 @@ module.exports = function (grunt) {
     grunt.registerTask("test:main", ["karma:main"]);
     grunt.registerTask("watch:main:dev", ["watch:main-dev"]);
     grunt.registerTask("watch:main:prod", ["watch:main-prod"]);
+    
+    // app internal
+    grunt.registerTask("test:internal", ["karma:internal"]);
+    grunt.registerTask("watch:internal:dev", ["watch:internal-dev"]);
+    grunt.registerTask("watch:internal:prod", ["watch:internal-prod"]);
 };
