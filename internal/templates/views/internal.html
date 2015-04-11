@@ -9,9 +9,32 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="{% static 'internal.min.css' %}">
     </head>
-    <body ng-controller="ParentCtrl">
-        
-        <ng-view></ng-view>
+    <body ng-controller="ParentCtrl"
+          layout="row">
+
+        <md-sidenav class="md-sidenav-left md-whiteframe-z2"
+                    md-component-id="left"
+                    flex
+                    md-is-locked-open="$mdMedia('gt-md')">
+            <md-toolbar class="md-theme-primary">
+                <h1 class="md-toolbar-tools">Internal Console</h1>
+            </md-toolbar>
+            <md-content class="sidebar-content"
+                        layout-padding flex
+                        style="background-image: url('{% static 'img/codewukong.png' %}')">
+                <ul class="sidebar-list"
+                    ng-repeat="obj in sidebar.model">
+                    <li class="sidebar-item">
+                        {% verbatim %}
+                        <md-button ng-bind="obj.label"
+                                   ng-href="{{obj.url}}"
+                                   aria-label="{{obj.label}}"></md-button></li>
+                       {% endverbatim %}
+                </ul>
+            </md-content>
+        </md-sidenav>
+
+        <ng-view flex></ng-view>
         
         <script src="{% static 'internal.min.js' %}"></script>
     </body>

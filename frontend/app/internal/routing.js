@@ -3,13 +3,18 @@ angular.module('internal.routing')
         function ($routeProvider, $locationProvider) {
             $routeProvider
 
-                .when('/internal', {
-                    templateUrl: '_pages/index/index.html',
-                        // this splash page then redirects to the admin page
+                .when('/internal/champs', {
+                    templateUrl: '_pages/champs/champs.html',
+                    controller: 'ChampsCtrl'
+                })
+                
+                .when('/internal/rules', {
+                    templateUrl: '_pages/rules/rules.html',
+                    controller: 'RulesCtrl'
                 })
                 
                 .otherwise({
-                    redirectTo: '/internal'
+                    redirectTo: '/internal/champs'
                 });
 
             $locationProvider.html5Mode(true)

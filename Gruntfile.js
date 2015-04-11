@@ -27,10 +27,12 @@ module.exports = function (grunt) {
             }
         },
         concat: {
-            "copy-js-map": {
+            "copy-map": {
                 files: {
                     'lolcomp/static/angular.min.js.map': 'frontend/vendor/angular/angular.min.js.map',
-                    'lolcomp/static/angular-route.min.js.map': 'frontend/vendor/angular/angular-route.min.js.map'
+                    'lolcomp/static/angular-route.min.js.map': 'frontend/vendor/angular/angular-route.min.js.map',
+                    'lolcomp/static/angular-animate.min.js.map': 'frontend/vendor/angular/angular-animate.min.js.map',
+                    'lolcomp/static/bootstrap.css.map': 'frontend/vendor/bootstrap/bootstrap.css.map',
                 }
             },
             // app sitedown
@@ -38,7 +40,8 @@ module.exports = function (grunt) {
                 files: {
                     'tmp/sitedown.js': [
                         'frontend/vendor/angular/angular.min.js',
-                        'frontend/vendor/**/*.js',
+                        'frontend/vendor/angular-cookies/angular-cookies.min.js',
+                        'frontend/vendor/angular-route/angular-route.min.js',
                         'frontend/app/sitedown/app.js',
                         'tmp/sitedown-templates.js',
                         'frontend/app/sitedown/routing.js',
@@ -130,7 +133,11 @@ module.exports = function (grunt) {
                 files: {
                     'tmp/internal.js': [
                         'frontend/vendor/angular/angular.min.js',
-                        'frontend/vendor/**/*.js',
+                        'frontend/vendor/angular-cookies/angular-cookies.min.js',
+                        'frontend/vendor/angular-route/angular-route.min.js',
+                        'frontend/vendor/angular-animate/angular-animate.min.js',
+                        'frontend/vendor/angular-aria/angular-aria.min.js',
+                        'frontend/vendor/angular-material/angular-material.min.js',
                         'frontend/app/internal/app.js',
                         'tmp/internal-templates.js',
                         'frontend/app/internal/routing.js',
@@ -303,7 +310,7 @@ module.exports = function (grunt) {
                 ],
                 tasks: [
                     'exec:create-fake-css-map-sitedown',
-                    'concat:copy-js-map',
+                    'concat:copy-map',
                     'concat:sitedown-scss',
                     'sass:sitedown',
                     'concat:sitedown-css',
@@ -320,7 +327,7 @@ module.exports = function (grunt) {
                     'frontend/**/*'
                 ],
                 tasks: [
-                    'concat:copy-js-map',
+                    'concat:copy-map',
                     'concat:sitedown-scss',
                     'sass:sitedown',
                     'concat:sitedown-css',
@@ -338,7 +345,7 @@ module.exports = function (grunt) {
                 ],
                 tasks: [
                     'exec:create-fake-css-map-main',
-                    'concat:copy-js-map',
+                    'concat:copy-map',
                     'concat:main-scss',
                     'sass:main',
                     'concat:main-css',
@@ -355,7 +362,7 @@ module.exports = function (grunt) {
                     'frontend/**/*'
                 ],
                 tasks: [
-                    'concat:copy-js-map',
+                    'concat:copy-map',
                     'concat:main-scss',
                     'sass:main',
                     'concat:main-css',
@@ -373,7 +380,7 @@ module.exports = function (grunt) {
                 ],
                 tasks: [
                     'exec:create-fake-css-map-internal',
-                    'concat:copy-js-map',
+                    'concat:copy-map',
                     'concat:internal-scss',
                     'sass:internal',
                     'concat:internal-css',
@@ -390,7 +397,7 @@ module.exports = function (grunt) {
                     'frontend/**/*'
                 ],
                 tasks: [
-                    'concat:copy-js-map',
+                    'concat:copy-map',
                     'concat:internal-scss',
                     'sass:internal',
                     'concat:internal-css',
@@ -404,17 +411,17 @@ module.exports = function (grunt) {
         }
     });
 
-    // app sitedown
+    // grunt cmds for sitedown
     grunt.registerTask("test:sitedown", ["karma:sitedown"]);
     grunt.registerTask("watch:sitedown:dev", ["watch:sitedown-dev"]);
     grunt.registerTask("watch:sitedown:prod", ["watch:sitedown-prod"]);
     
-    // app main
+    // grunt cmds for main
     grunt.registerTask("test:main", ["karma:main"]);
     grunt.registerTask("watch:main:dev", ["watch:main-dev"]);
     grunt.registerTask("watch:main:prod", ["watch:main-prod"]);
     
-    // app internal
+    // grunt cmds for internal
     grunt.registerTask("test:internal", ["karma:internal"]);
     grunt.registerTask("watch:internal:dev", ["watch:internal-dev"]);
     grunt.registerTask("watch:internal:prod", ["watch:internal-prod"]);

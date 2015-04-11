@@ -1,5 +1,6 @@
 /* definitions */
 $color-primary: #27586B;
+$color-secondary: #FFE7AB;
 
 $xs: 567px;
 $sm: 767px;
@@ -73,3 +74,31 @@ $lg: 1199px;
  * (cursor, overflow, z-index, animations)
  *
  */
+
+/*** Sidebar ***/
+.sidebar-content {
+    background-size: 100%;
+    @media (max-height: 600px) {
+        background-size: 60%;
+    }
+    background-repeat: no-repeat;
+    background-position: 80% bottom;
+}
+.sidebar-list {
+    padding: 0;
+}
+.sidebar-item {
+    color: $color-primary;
+    
+    list-style-type: none;
+    
+    a {
+        display: block;
+        
+        width: 100%;
+        padding: 15px 40px;
+        
+        text-align: left;
+        text-decoration: none;
+    }
+}
