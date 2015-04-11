@@ -1,9 +1,9 @@
-var sitedown = angular.module("sitedown", [
-    "sitedown.routing",
-    "sitedown.templates",
-    "sitedown.controllers",
-    "sitedown.directives",
-    "sitedown.services",
+var main = angular.module("main", [
+    "main.routing",
+    "main.templates",
+    "main.controllers",
+    "main.directives",
+    "main.services",
     "ngCookies",
 ]).run(['$http', '$cookies',
     /*
@@ -17,8 +17,8 @@ var sitedown = angular.module("sitedown", [
         $http.defaults.headers.post['X-CSRFToken'] = $cookies.csrftoken;
     }]);
 
-angular.module("sitedown.routing", ['ngRoute']);
-angular.module("sitedown.controllers", []);
-angular.module("sitedown.directives", []);
-angular.module("sitedown.services", []);
+angular.module("main.routing", ['ngRoute']);
+angular.module("main.controllers", []);
+angular.module("main.directives", []);
+angular.module("main.services", []);
 

@@ -14,6 +14,11 @@ module.exports = function (grunt) {
                 configFile: 'frontend/jstests/sitedown/karma-unit.conf.js',
                 autoWatch: true,
                 singleRun: false
+            },
+            "main": {
+                configFile: 'frontend/jstests/sitedown/karma-unit.conf.js',
+                autoWatch: true,
+                singleRun: false
             }
         },
         concat: {
@@ -23,6 +28,7 @@ module.exports = function (grunt) {
                     'lolcomp/static/angular-route.min.js.map': 'frontend/vendor/angular/angular-route.min.js.map'
                 }
             },
+            // app sitedown
             "sitedown-js": {
                 files: {
                     'tmp/sitedown.js': [
@@ -47,6 +53,7 @@ module.exports = function (grunt) {
                 files: {
                     'tmp/sitedown.scss': [
                         'frontend/app/sitedown/styles/base.scss',
+                        'lolcomp/static/style.css',
                         'frontend/app/sitedown/**/*.scss',
                     ]
                 }
@@ -65,6 +72,52 @@ module.exports = function (grunt) {
                         'tmp/sitedown.css'
                     ]
                 }
+            },
+            
+            // app main
+            "main-js": {
+                files: {
+                    'tmp/main.js': [
+                        'frontend/vendor/angular/angular.min.js',
+                        'frontend/vendor/**/*.js',
+                        'frontend/app/main/app.js',
+                        'tmp/main-templates.js',
+                        'frontend/app/main/routing.js',
+                        'frontend/app/main/**/*.js'
+                    ]
+                }
+            },
+            "main-nomin-js": {
+                files: {
+                    // destination : [source1, source2, ...]
+                    'main/static/main.min.js': [
+                        'tmp/main.js'
+                    ]
+                }
+            },
+            "main-scss": {
+                files: {
+                    'tmp/main.scss': [
+                        'frontend/app/main/styles/base.scss',
+                        'lolcomp/static/style.css',
+                        'frontend/app/main/**/*.scss',
+                    ]
+                }
+            },
+            "main-css": {
+                files: {
+                    'tmp/main.css': [
+                        'frontend/vendor/**/*.css',
+                        'tmp/main.scss.css',
+                    ]
+                }
+            },
+            "main-nomin-css": {
+                files: {
+                    'main/static/main.min.css': [
+                        'tmp/main.css'
+                    ]
+                }
             }
         },
         cssmin: {
@@ -75,6 +128,13 @@ module.exports = function (grunt) {
                 files: {
                     'sitedown/static/sitedown.min.css': [
                         'tmp/sitedown.css'
+                    ]
+                }
+            },
+            "main": {
+                files: {
+                    'main/static/main.min.css': [
+                        'tmp/main.css'
                     ]
                 }
             }
@@ -88,6 +148,14 @@ module.exports = function (grunt) {
                     // destination : source
                     'tmp/sitedown.scss.css': 'tmp/sitedown.scss'
                 }
+            },
+            "main": {
+                options: {
+                    style: 'string'
+                },
+                files: {
+                    'tmp/main.scss.css': 'tmp/main.scss'
+                }
             }
         },
         html2js: {
@@ -99,6 +167,17 @@ module.exports = function (grunt) {
                 files: {
                     'tmp/sitedown-templates.js': [
                         'frontend/app/sitedown/modules/**/*.html'
+                    ]
+                }
+            },
+            "main": {
+                options: {
+                    base: 'frontend/app/main/modules',
+                    module: 'main.templates'
+                },
+                files: {
+                    'tmp/main-templates.js': [
+                        'frontend/app/main/modules/**/*.html'
                     ]
                 }
             },
@@ -115,10 +194,18 @@ module.exports = function (grunt) {
                     ]
                 }
             },
+            "main": {
+                files: {
+                    'main/static/main.min.js': [
+                        'tmp/main.js'
+                    ]
+                }
+            },
         },
         exec: {
             collectstatic: 'rm -rf lolcomp/staticfiles && python manage.py collectstatic --noinput',
-            'create-fake-css-map': 'echo "" > lolcomp/static/sitedown.scss.css.map'
+            'create-fake-css-map-sitedown': 'echo "" > lolcomp/static/sitedown.scss.css.map',
+            'create-fake-css-map-main': 'echo "" > lolcomp/static/main.scss.css.map',
         },
         watch: {
             options: {
@@ -130,7 +217,7 @@ module.exports = function (grunt) {
                     'frontend/**/*'
                 ],
                 tasks: [
-                    'exec:create-fake-css-map',
+                    'exec:create-fake-css-map-sitedown',
                     'concat:copy-js-map',
                     'concat:sitedown-scss',
                     'sass:sitedown',
@@ -159,6 +246,41 @@ module.exports = function (grunt) {
                     'exec:collectstatic'
                 ]
             },
+            "main-dev": {
+                files: [
+                    'Gruntfile.js',
+                    'frontend/**/*'
+                ],
+                tasks: [
+                    'exec:create-fake-css-map-main',
+                    'concat:copy-js-map',
+                    'concat:main-scss',
+                    'sass:main',
+                    'concat:main-css',
+                    'concat:main-nomin-css',
+                    'html2js:main',
+                    'concat:main-js',
+                    'concat:main-nomin-js',
+                    'exec:collectstatic'
+                ]
+            },
+            "main-prod": {
+                files: [
+                    'Gruntfile.js',
+                    'frontend/**/*'
+                ],
+                tasks: [
+                    'concat:copy-js-map',
+                    'concat:main-scss',
+                    'sass:main',
+                    'concat:main-css',
+                    'cssmin:main',
+                    'html2js:main',
+                    'concat:main-js',
+                    'uglify:main',
+                    'exec:collectstatic'
+                ]
+            },
         }
     });
 
@@ -166,4 +288,9 @@ module.exports = function (grunt) {
     grunt.registerTask("test:sitedown", ["karma:sitedown"]);
     grunt.registerTask("watch:sitedown:dev", ["watch:sitedown-dev"]);
     grunt.registerTask("watch:sitedown:prod", ["watch:sitedown-prod"]);
+    
+    // app main
+    grunt.registerTask("test:main", ["karma:main"]);
+    grunt.registerTask("watch:main:dev", ["watch:main-dev"]);
+    grunt.registerTask("watch:main:prod", ["watch:main-prod"]);
 };
