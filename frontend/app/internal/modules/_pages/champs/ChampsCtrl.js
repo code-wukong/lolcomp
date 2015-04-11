@@ -12,7 +12,7 @@ angular.module('internal.controllers')
             var initialize = function () {
                 $scope.panels = {
                     info: {
-                        title: "Status",
+                        title: "Information",
                         current_patch: "5.2.1",
                         latest_patch: "5.2.1",
                         time_last_updated: new Date(),

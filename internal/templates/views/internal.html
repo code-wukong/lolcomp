@@ -8,6 +8,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="{% static 'internal.min.css' %}">
+        <link href='http://fonts.googleapis.com/css?family=Questrial' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="http://i.icomoon.io/public/temp/1810e98e12/UntitledProject/style.css">
     </head>
     <body ng-controller="ParentCtrl"
           layout="row">
@@ -23,12 +25,18 @@
                         flex
                         style="background-image: url('{% static 'img/codewukong.png' %}')">
                 <ul class="sidebar-list">
-                    <li class="sidebar-item" ng-class="{ 'sidebar-active' : static.is_active(obj.url) }"
+                    <li class="sidebar-item"
+                        layout="row" layout-align="start center"
+                        ng-class="{ 'sidebar-active' : static.is_active(obj.url) }"
                         ng-repeat="obj in sidebar.model">
                         {% verbatim %}
-                        <md-button ng-bind="obj.label"
-                                   ng-href="{{obj.url}}"
-                                   aria-label="{{obj.label}}"></md-button></li>
+                        <md-button ng-href="{{obj.url}}"
+                                   aria-label="{{obj.label}}">
+                            <span class="sidebar-icon icon-radio-checked"
+                                  ng-if="static.is_active(obj.url) === true"></span>
+                            <span class="sidebar-icon icon-radio-unchecked"
+                                  ng-if="static.is_active(obj.url) === false"></span>
+                            {{obj.label}}</md-button></li>
                        {% endverbatim %}
                 </ul>
             </md-content>

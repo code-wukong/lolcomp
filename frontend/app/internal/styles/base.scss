@@ -1,7 +1,6 @@
 /* definitions */
 $color-primary: #27586B;
 $color-secondary: #FFE7AB;
-$color-light-gray: #E6E6E6;
 
 $font-title: 'Questrial';
 $font-content: Arial;
@@ -14,8 +13,7 @@ $lg: 1199px;
 
 /* fonts */
 @font-face {
-    font-family: 'Questrial';
-    src: url('../static/fonts/Questrial-Regular.ttf');
+    font-family: 'Questrial', sans-serif;
 }
 body {
     font-family: $font-content;
@@ -108,6 +106,9 @@ body {
     
     list-style-type: none;
     
+    .sidebar-icon {
+        padding: 10px;
+    }
     a {
         display: block;
         
@@ -117,7 +118,4 @@ body {
         text-align: left;
         text-decoration: none;
     }
-}
-.sidebar-active {
-    background-color: $color-light-gray;
 }

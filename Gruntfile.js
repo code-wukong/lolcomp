@@ -114,7 +114,7 @@ module.exports = function (grunt) {
             },
             "main-css": {
                 files: {
-                    'tmp/main.css': [
+                    'tmp/scss': [
                         'frontend/vendor/**/*.css',
                         'tmp/main.scss.css',
                     ]
@@ -157,7 +157,6 @@ module.exports = function (grunt) {
                 files: {
                     'tmp/internal.scss': [
                         'frontend/app/internal/styles/base.scss',
-                        'lolcomp/static/style.css',
                         'frontend/app/internal/styles/**/*.scss',
                         'frontend/app/internal/modules/**/*.scss',
                     ]
@@ -295,7 +294,7 @@ module.exports = function (grunt) {
             }
         },
         exec: {
-            collectstatic: 'rm -rf lolcomp/staticfiles && python manage.py collectstatic --noinput --no-post-process',
+            collectstatic: 'rm -rf lolcomp/staticfiles && python manage.py collectstatic --noinput',
         },
         watch: {
             options: {
