@@ -157,6 +157,7 @@ module.exports = function (grunt) {
                 files: {
                     'tmp/internal.scss': [
                         'frontend/app/internal/styles/base.scss',
+                        'lolcomp/static/style.css',
                         'frontend/app/internal/styles/**/*.scss',
                         'frontend/app/internal/modules/**/*.scss',
                     ]

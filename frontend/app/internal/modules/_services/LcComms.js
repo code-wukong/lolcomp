@@ -1,8 +1,11 @@
 angular.module("internal.services")
     .factory("LcComms", ["$http", '$q',
         function ($http, $q) {
+            var constants;
+            var deferred = $q.defer();
+            
             var LcComms = {
-                call_ws: function (ws_url, post) {
+                send_request: function (ws_url, post) {
                     var deferred = $q.defer();
 
                     $http({
@@ -17,6 +20,18 @@ angular.module("internal.services")
                         deferred.reject(data);
                     })
 
+                    return deferred.promise;
+                },
+                write_constants: function (data) {
+                    constants = data;
+                },
+                read_constants: function () {
+                    return constants;
+                },
+                is_ready: function (set) {
+                    if(set && set === true)
+                        deferred.resolve();
+                    
                     return deferred.promise;
                 }
             };

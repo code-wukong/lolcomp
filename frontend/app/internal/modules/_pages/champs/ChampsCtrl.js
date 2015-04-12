@@ -1,15 +1,26 @@
 angular.module('internal.controllers')
-    .controller('ChampsCtrl', ['$scope', 'LcComms', '$mdSidenav',
-        function ($scope, LcComms, $mdSidenav) {
+    .controller('ChampsCtrl', ['$scope', 'LcComms',
+        function ($scope, LcComms) {
             var cst;
-            $scope.toggleLeft = function () {
-                $mdSidenav('left').toggle()
-                    .then(function () {
-                        console.log("Champs Ctrl - online")
-                    });
-            };
+            LcComms.is_ready().then(function () {
+                cst = LcComms.read_constants();
+                initialize();
+            });
 
             var initialize = function () {
+                
+                var post = {
+                    "test1": 3,
+                    "test2": 'asdfasf2sdf32df'
+                }
+                LcComms.send_request(cst.ws.riot_api_request, post)
+                    .then(function (data) {
+                        console.log(data);
+                    })
+                    .catch(function (data) {
+                        console.log(data, "error");
+                    });
+
                 $scope.panels = {
                     info: {
                         title: "Information",
@@ -38,9 +49,6 @@ angular.module('internal.controllers')
                     }
                 }
 
-            }
-
-
-            initialize();
+            };
 
         }]);
