@@ -25,7 +25,7 @@ angular.module('internal.controllers')
                 /*** Apply Tag Rules ***/
                 // foreach champ
                     // foreach skill
-                        // apply rules and get all tags for this skilll
+                        // apply rules and get all tags for this skill
                 
                 
                 /*** Apply Relation Rules ***/

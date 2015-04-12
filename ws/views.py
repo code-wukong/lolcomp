@@ -79,12 +79,15 @@ def riot_api_request(request):
     
 def get_installed_patch(request):
     if request.method == 'POST':
-        query = Static.objects.filter(label=CST['champ_data'])
-        definition = json.loads(query[0].definition)
-        
-        data = {
-            'version': definition['version']
-        }
+        try:
+            query = Static.objects.filter(label=CST['champ_data'])
+            definition = json.loads(query[0].definition)
+
+            data = {
+                'version': definition['version']
+            }
+        except:
+            data = {'version': 'error'}
         
         return HttpResponse(json.dumps(data), content_type='application/json')
     else:
@@ -105,12 +108,12 @@ def update_static_data(request):
         data = r.json()
 
         # overwrite the previous data
-        query_set = Static.objects.filter(label=CST['champ_data'])
-        if(query_set != []):
+        try:
+            query_set = Static.objects.filter(label=CST['champ_data'])
             obj = query_set[0]
             obj.definition = json.dumps(r.json())
             obj.save()
-        else:
+        except:
             static_create({
                 'label': CST['champ_data'],
                 'definition': json.dumps(data)
