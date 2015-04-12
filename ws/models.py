@@ -4,7 +4,7 @@ from django.db import models
 
 class Static(models.Model):
     label = models.CharField(max_length=255)
-    info = models.TextField()
+    definition = models.TextField()
 
     def __unicode__( self ):
         return "{0}".format(self.label)

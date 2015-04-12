@@ -5,36 +5,40 @@
     <div layout="column"
          layout-align="top center"
          layout-fill>
-        
         <lc-panel lc-title="panels.info.title">
-            <div layout="row">
+            <div ng-hide="panels.loading"
+                 layout="row">
                 <div layout="row" layout-align="start center"
                      flex="50">
-                    <lc-led class="champs-info-indicator"
-                            lc-red-light="{{panels.info.current_patch !== panels.info.latest_patch}}"
-                            lc-green-light="{{panels.info.current_patch === panels.info.latest_patch}}"></lc-led>
-                    <span flex>Lolcomp is on the latest patch</span>
+                    <div class="champs-info-indicator">
+                        <lc-led ng-class="{'led-red' : panels.info.status() === false,
+                                           'led-green' : panels.info.status() === true}"></lc-led></div>
+                    <span ng-if="panels.info.status() === true"
+                          flex>Lolcomp is on the latest patch</span>
+                    <span ng-if="panels.info.status() === false"
+                          flex>Lolcomp needs to be updated to Patch {{panels.info.latest_patch}}</span>
                 </div>
                 <span layout="row" layout-align="start center"
                       flex="50">Patch Installed:&nbsp;<strong>{{panels.info.current_patch || '-'}}</strong></span>
             </div>
         </lc-panel>
-        
+
         <lc-panel lc-title="panels.update_champs.title">
             <div class="champs-row"
                  layout="row" layout-align="start center">
                 <div layout="row" layout-align="start center"
                      flex="50">
-                    <lc-led class="champs-info-indicator"
-                            lc-green-light="{{panels.update_champs.status === true}}"
-                            lc-red-light="{{panels.update_champs.status === false}}"></lc-led>
+                    <div class="champs-info-indicator">
+                        <lc-led ng-class="{'led-red' : panels.info.current_patch !== panels.info.latest_patch,
+                                'led-green' : panels.info.current_patch === panels.info.latest_patch}"></lc-led></div>
                     <div flex>
                         <span ng-if="panels.update_champs.status === true">Good</span>
                         <span ng-if="panels.update_champs.status === false">Current dataset is up to date</span>
                     </div>
                 </div>
                 <div flex="50">
-                    <md-button class="md-raised champs-button">Update</md-button>
+                    <md-button class="md-raised champs-button"
+                               ng-click="panels.update_champs.execute()">Update</md-button>
                 </div>
             </div>
             <div class="champs-row"
@@ -44,21 +48,22 @@
                 </span>
             </div>
         </lc-panel>
-        
+
         <lc-panel lc-title="panels.analyze_champs.title">
             <div layout="row" layout-align="start center">
                 <div layout="row" layout-align="start center"
                      flex="50">
-                    <lc-led class="champs-info-indicator"
-                            lc-green-light="{{panels.analyze_champs.status === true}}"
-                            lc-red-light="{{panels.analyze_champs.status === false}}"></lc-led>
+                    <div class="champs-info-indicator">
+                        <lc-led ng-class="{'led-red' : panels.info.current_patch !== panels.info.latest_patch,
+                                'led-green' : panels.info.current_patch === panels.info.latest_patch}"></lc-led></div>
                     <div flex>
                         <span ng-if="panels.analyze_champs.status === true">Good</span>
                         <span ng-if="panels.analyze_champs.status === false">Current dataset needs to be analyzed</span>
                     </div>
                 </div>
                 <div flex="50">
-                    <md-button class="md-raised champs-button">Analyze</md-button>
+                    <md-button class="md-raised champs-button"
+                               ng-click="panels.analyze_champs.execute()">Analyze</md-button>
                 </div>
             </div>
             <div class="champs-row"
@@ -68,7 +73,7 @@
                 </span>
             </div>
         </lc-panel>
-        
+
     </div>
     <div flex></div>
 </md-content>

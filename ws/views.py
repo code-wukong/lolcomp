@@ -1,10 +1,9 @@
 # ws/views.py
 
 from django.http import HttpResponse, HttpResponseRedirect
-import json
-import os
+import json, os, requests
 from ws.models import *
-from lolcomp.helpers import im_jarvan
+from lolcomp.helpers import *
 
 # retrieve constants for app sitedown
 def cst_sitedown(request):
@@ -47,10 +46,6 @@ def cst_internal(request):
 
         data = {
             'static_url': os.environ.get('DJANGO_STATIC_HOST', False),
-            'ws': {
-                'riot_api_request': 'ws/riot_api_request',
-                'champion_create': 'ws/champion_create',
-            },
         }
         
         if(post['test'] == 'wuju'):
@@ -65,31 +60,66 @@ def riot_api_request(request):
     if request.method == 'POST':
         post = json.loads(request.body)
 
+        settings = {
+            'api_key': os.environ.get('RIOT_API_KEY', '')
+        }
+        for p in post['params']:
+            settings[p] = post['params'][p]
         
+        r = requests.get(API[post['url']], params=settings)
 
         data = {
-            'success': True,
-            'data': json.dumps(post)
+            'status': r.status_code,
+            'data': r.json()
         }
         
         return HttpResponse(json.dumps(data), content_type='application/json')
     else:
         return HttpResponseRedirect("/")
     
-# create champion from data
-def champion_create(request):
+def get_installed_patch(request):
     if request.method == 'POST':
-        post = json.loads(request.body)
-
+        query = Static.objects.filter(label=CST['champ_data'])
+        definition = json.loads(query[0].definition)
         
-
         data = {
-            'success': True,
-            'data': json.dumps(post['data'])
+            'version': definition['version']
         }
         
-#        if(post['test'] == 'wuju'):
-#            data['compromised'] = True
+        return HttpResponse(json.dumps(data), content_type='application/json')
+    else:
+        return HttpResponseRedirect("/")
+    
+    
+# update the static data champ singleton
+def update_static_data(request):
+    if request.method == 'POST':
+        # Make call to Riot API for all champ data
+        settings = {
+            'champData': 'all',
+            'api_key': os.environ.get('RIOT_API_KEY', '')
+        }
+
+        url = API['static_data']
+        r = requests.get(url, params=settings)
+        data = r.json()
+
+        # overwrite the previous data
+        query_set = Static.objects.filter(label=CST['champ_data'])
+        if(query_set != []):
+            obj = query_set[0]
+            obj.definition = json.dumps(r.json())
+            obj.save()
+        else:
+            static_create({
+                'label': CST['champ_data'],
+                'definition': json.dumps(data)
+            })
+        
+        data = {
+            'status': r.status_code,
+            'patch': data['version']
+        }
         
         return HttpResponse(json.dumps(data), content_type='application/json')
     else:

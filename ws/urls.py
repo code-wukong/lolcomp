@@ -8,5 +8,6 @@ urlpatterns = [
     url(r'^cst_main$', views.cst_main),
     url(r'^cst_internal$', views.cst_internal),
     url(r'^riot_api_request$', views.riot_api_request),
-    url(r'^champion_create$', views.champion_create),
+    url(r'^get_installed_patch$', views.get_installed_patch),
+    url(r'^update_static_data$', views.update_static_data),
 ]

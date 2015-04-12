@@ -1,12 +1,15 @@
 angular.module('internal.controllers')
-    .controller('ParentCtrl', ['$scope', 'LcComms', '$location',
-        function ($scope, LcComms, $location) {
+    .controller('ParentCtrl', ['$scope', 'LcComms', 'LcConfig', '$location',
+        function ($scope, LcComms, LcConfig, $location) {
 
             var cst;
             LcComms.send_request("ws/cst_internal", {"test": null})
                 .then(function (data) {
                     cst = $scope.cst = data;
                     LcComms.write_constants(data);
+                    return LcConfig.initialize();
+                })
+                .then(function () { 
                     LcComms.is_ready(true);
                     initialize();
                 });
