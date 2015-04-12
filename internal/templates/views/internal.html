@@ -19,7 +19,9 @@
                     flex
                     md-is-locked-open="$mdMedia('gt-md')">
             <md-toolbar class="md-theme-primary sidebar-toolbar">
-                <h1 class="md-toolbar-tools">Internal Console</h1>
+                <h1 class="md-toolbar-tools">
+                    <a href="https://www.lolcomp.net/"
+                       target="_blank">Internal Console</a></h1>
             </md-toolbar>
             <md-content class="sidebar-content"
                         flex
@@ -31,6 +33,7 @@
                         ng-repeat="obj in sidebar.model">
                         {% verbatim %}
                         <md-button ng-href="{{obj.url}}"
+                                   target="{{obj.new_page && '_blank' || '' }}"
                                    aria-label="{{obj.label}}">
                             <span class="sidebar-icon icon-radio-checked"
                                   ng-if="static.is_active(obj.url) === true"></span>

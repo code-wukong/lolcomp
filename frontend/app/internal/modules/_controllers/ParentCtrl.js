@@ -30,10 +30,16 @@ angular.module('internal.controllers')
                     model: [
                         {
                             label: 'Edit Champs',
-                            url: 'internal/champs'
+                            url: 'internal/champs',
+                            new_page: false,
                         },{
                             label: 'Edit Rules',
-                            url: 'internal/rules'
+                            url: 'internal/rules',
+                            new_page: false,
+                        },{
+                            label: 'Database Admin',
+                            url: 'admin',
+                            new_page: true,
                         }
                     ]
                 }
