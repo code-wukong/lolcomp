@@ -54,8 +54,8 @@
                 <div layout="row" layout-align="start center"
                      flex="50">
                     <div class="champs-info-indicator">
-                        <lc-led ng-class="{'led-red' : panels.info.current_patch !== panels.info.latest_patch,
-                                'led-green' : panels.info.current_patch === panels.info.latest_patch}"></lc-led></div>
+                        <lc-led ng-class="{'led-red' : panels.analyze_champs.status == false,
+                                'led-green' : panels.analyze_champs.status == true}"></lc-led></div>
                     <div flex>
                         <span ng-if="panels.analyze_champs.status === true">Good</span>
                         <span ng-if="panels.analyze_champs.status === false">Current dataset needs to be analyzed</span>

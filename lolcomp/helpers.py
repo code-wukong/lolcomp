@@ -6,6 +6,7 @@ import os
 # CONSTANTS
 CST = {
     'champ_data': 'Champ_Data',
+    'config': 'Config',
     'tag_defs': 'Tag_Definitions',
     'relation_defs': 'Relation_Definitions',
     'urf_matches': 'Urf_Matches',

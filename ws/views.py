@@ -1,9 +1,12 @@
 # ws/views.py
 
-from django.http import HttpResponse, HttpResponseRedirect
-import json, os, requests
-from ws.models import *
+from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+import json
 from lolcomp.helpers import *
+import os
+import requests
+from ws.models import *
 
 # retrieve constants for app sitedown
 def cst_sitedown(request):
@@ -95,7 +98,7 @@ def get_installed_patch(request):
     
     
 # update the static data champ singleton
-def update_static_data(request):
+def update_champs_data(request):
     if request.method == 'POST':
         # Make call to Riot API for all champ data
         settings = {
@@ -115,9 +118,9 @@ def update_static_data(request):
             obj.save()
         except:
             static_create({
-                'label': CST['champ_data'],
-                'definition': json.dumps(data)
-            })
+                          'label': CST['champ_data'],
+                          'definition': json.dumps(data)
+                          })
         
         data = {
             'status': r.status_code,
@@ -127,3 +130,51 @@ def update_static_data(request):
         return HttpResponse(json.dumps(data), content_type='application/json')
     else:
         return HttpResponseRedirect("/")
+       
+# get/set config data singleton
+def rw_static_def(request):
+    if request.method == 'POST':
+        '''
+        expected_object = {
+            label: "config",
+            mode: "write",
+            data: data_to_write
+        }
+        '''
+        post = json.loads(request.body)
+        singleton = post['label']
+        data_to_write = post.get('data', {})
+        create_new_flag = False
+        
+        if(post['mode'] == 'read'):
+            try:
+                query_set = Static.objects.filter(label=CST[singleton])
+                data = json.loads(query_set[0].definition)
+            except:
+                create_new_flag = True
+                data = data_to_write
+        elif(post['mode'] == 'write'):
+            # overwrite the previous data
+            try:
+                query_set = Static.objects.filter(label=CST[singleton])
+                obj = query_set[0]
+                obj.definition = json.dumps(data_to_write)
+                obj.save()
+            except:
+                create_new_flag = True
+                
+            data = {
+                'status': "success - wrote " + CST[singleton],
+            }
+            
+            
+        if(create_new_flag == True):
+            static_create({
+                'label': CST[singleton],
+                'definition': json.dumps(data_to_write)
+            })
+            
+        return HttpResponse(json.dumps(data), content_type='application/json')
+    else:
+        return HttpResponseRedirect("/")
+    

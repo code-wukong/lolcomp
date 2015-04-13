@@ -5,23 +5,32 @@ angular.module("internal.services")
             
             var LcConfig = {
                 get: function (label) {
-                    return (config[label] || "LcConfig - Error");
+                    return config[label];
                 },
                 set: function (label, data) {
                     config[label] = data;
+                    var post = {
+                        label: "config",
+                        mode: "write",
+                        data: config
+                    }
+                    LcComms.send_request("ws/rw_static_def", post)
                 },
                 initialize: function () {
                     var deferred = $q.defer();
                     
-                    LcComms.send_request("ws/get_installed_patch")
-                        // get patch that Lolcomp is on
+                    var post = {
+                        label: "config",
+                        mode: "read"
+                    }
+                    LcComms.send_request("ws/rw_static_def", post)
+                        // load config from server
                         .then(function (data) {
-                            config['current_patch'] = data.version;
-                            
+                            config = data;
+
                             var post = {
                                 url: "static_data",
-                                params: {
-                                }
+                                params: {}
                             }
                             return LcComms.send_request("ws/riot_api_request", post)
                         })

@@ -8,12 +8,18 @@ angular.module('internal.controllers')
             });
 
             var action_update_champs = function () {
+                console.log('Installing the latest patch to lolcomp ...');
                 // Get static champion data
-                var post = {
-                }
-                LcComms.send_request("ws/update_static_data", post)
+                LcComms.send_request("ws/update_champs_data")
                     .then(function (data) {
+                        var time = new Date();
                         $scope.panels.info.current_patch = data.patch;
+                        $scope.panels.info.time_last_updated = time;
+                        $scope.panels.analyze_champs.status = false;
+                        LcConfig.set("current_patch", data.patch);
+                        LcConfig.set("time_last_updated", time);
+                        LcConfig.set("has_been_analyzed", false);
+                        console.log(".. Finished");
                     })
                     .catch(function (data) {
                         console.log(data, "error");
@@ -56,7 +62,7 @@ angular.module('internal.controllers')
                         },
                         current_patch: LcConfig.get("current_patch"),
                         latest_patch: LcConfig.get("latest_patch"),
-                        time_last_updated: new Date(),
+                        time_last_updated: LcConfig.get("time_last_updated"),
                         time_last_analyzed: new Date(),
                     },
                     update_champs: {
@@ -66,7 +72,7 @@ angular.module('internal.controllers')
                     },
                     analyze_champs: {
                         title: "Analyze Champion Static Data",
-                        status: true,
+                        status: LcConfig.get("has_been_analyzed"),
                         execute: action_analyze_champs
                     }
                 }
