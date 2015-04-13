@@ -36,7 +36,7 @@ angular.module('internal.controllers')
                             url: 'internal/champs',
                             new_page: false,
                         }, {
-                            label: 'Edit Rules',
+                            label: 'Edit Tags',
                             url: 'internal/rules',
                             new_page: false,
                         }, {

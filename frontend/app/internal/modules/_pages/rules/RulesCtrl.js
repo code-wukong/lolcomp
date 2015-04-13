@@ -6,36 +6,53 @@ angular.module('internal.controllers')
                 label: "label",
                 color: "27586B",
                 key_words: "reduces, physical",
-            }
-            
-            LcComms.is_ready().then(function () {
-                cst = LcComms.read_constants();
-                initialize();
-            });
+            };
+
+            LcComms.is_ready()
+                .then(function () {
+                    cst = LcComms.read_constants();
+                });
+            LcComms.send_request("ws/rw_static_def", {label: "tag_defs", mode: "read"})
+                .then(function (data) {
+                    initialize();
+                    if (angular.isArray(data) === true) {
+                        $scope.panels.rules.model = data;
+                    }
+                })
 
             var initialize = function () {
-                
+
                 $scope.panels = {
                     rules: {
                         title: "Rules",
                         selected: null,
                         edit_model: angular.copy(rule_schema),
-                        model: LcConfig.get("rule_definitions") || [],
+                        model: [],
+                        save_to_db: function () {
+                            var post = {
+                                label: "tag_defs",
+                                mode: "write",
+                                data: this.model
+                            };
+                            LcComms.send_request("ws/rw_static_def", post)
+                        },
                         add_rule: function () {
                             this.model.push(angular.copy(rule_schema))
                         },
                         delete_rule: function (index) {
-                            if(index !== this.selected){
+                            if (index !== this.selected && this.selected !== null) {
                                 this.selected = null;
-                            }else{
+                            } else {
                                 this.model.splice(index, 1);
                             }
+
+                            this.save_to_db();
                         },
                         save_changes: function (index) {
                             this.model[index] = angular.copy(this.edit_model);
                             this.selected = null;
-                            
-                            LcConfig.set("rule_definitions", this.model);
+
+                            this.save_to_db();
                         },
                         select_rule: function (index) {
                             this.selected = index;
@@ -49,12 +66,12 @@ angular.module('internal.controllers')
                         clear_rules: function () {
                             this.model = [];
                             $scope.$apply();
-                            
-                            LcConfig.set("rule_definitions", []);
+
+                            this.save_to_db();
                         }
                     }
                 }
-                
+
             };
 
         }]);

@@ -18,6 +18,12 @@ angular.module('internal.controllers')
                 .then(function (r) {
                     $scope.panels.info.latest_patch = r.data.version;
                     LcConfig.set('latest_patch', r.data.version);
+                    
+                    if($scope.panels.update_champs.status() === false){
+                        LcConfig.set("analysis_outdated", true);
+                        $scope.panels.analyze_champs.outdated = true;
+                    }
+                    
                     console.log(".. Finished");
                 })
             }
@@ -65,6 +71,12 @@ angular.module('internal.controllers')
                     // get all relations involved in
                     // build_relation_map(all_relations)
                     // record updated champ to db
+                    
+                LcConfig.set("has_been_analyzed", true);
+                LcConfig.set("analysis_outdated", true);
+                $scope.panels.analyze_champs.status = true;
+                $scope.panels.analyze_champs.outdated = false;
+                console.log(".. Finished");
             };
             
             var initialize = function () {
@@ -72,8 +84,22 @@ angular.module('internal.controllers')
                 $scope.panels = {
                     info: {
                         title: "Information",
+                        msg: "",
                         status: function () {
-                            return (this.current_patch === this.latest_patch);
+                            var cond = true;
+                            cond = cond && $scope.panels.analyze_champs.status;
+                            if(cond === false)
+                                this.msg = "Lolcomp needs to build champ relation maps"
+                            
+                            cond = cond && $scope.panels.update_champs.status();
+                            if($scope.panels.update_champs.status() === false)
+                                this.msg = "Lolcomp needs to be updated to Patch " + $scope.panels.info.latest_patch
+                            
+                            
+                            if(cond === true)
+                                this.msg = "No Issues"    
+                        
+                            return cond;
                         },
                         execute: action_get_latest_patch,
                         current_patch: LcConfig.get("current_patch"),
@@ -91,6 +117,7 @@ angular.module('internal.controllers')
                     analyze_champs: {
                         title: "Analyze Champion Static Data",
                         status: LcConfig.get("has_been_analyzed"),
+                        outdated: LcConfig.get("analysis_outdated"),
                         execute: action_analyze_champs
                     }
                 }

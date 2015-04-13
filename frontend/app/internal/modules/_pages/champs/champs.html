@@ -12,10 +12,7 @@
                     <div class="champs-info-indicator">
                         <lc-led ng-class="{'led-red' : panels.info.status() === false,
                                            'led-green' : panels.info.status() === true}"></lc-led></div>
-                    <span ng-if="panels.info.status() === false"
-                          flex>Lolcomp needs to be updated to Patch {{panels.info.latest_patch}}</span>
-                    <span ng-if="panels.info.status() === true"
-                          flex>Lolcomp is on the latest patch</span>
+                    <span flex>{{panels.info.msg}}</span>
                 </div>
                 <div flex="50">
                     <md-button class="md-raised internal-button"
@@ -61,7 +58,8 @@
                      flex="50">
                     <div class="champs-info-indicator">
                         <lc-led ng-class="{'led-red' : panels.analyze_champs.status == false,
-                                'led-green' : panels.analyze_champs.status == true}"></lc-led></div>
+                                           'led-orange' : panels.analyze_champs.outdated == true,
+                                           'led-green' : panels.analyze_champs.status == true}"></lc-led></div>
                     <div flex>
                         <span ng-if="panels.analyze_champs.status === true">Good</span>
                         <span ng-if="panels.analyze_champs.status === false">Current dataset needs to be analyzed</span>
