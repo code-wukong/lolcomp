@@ -50,7 +50,7 @@ angular.module('internal.controllers')
                 
                 
                 /*** Apply Relation Rules ***/
-                // clear all relations
+                // clear all relations in db
                 // foreach rule in exception_rules
                     // record new relation(k1, k2, def) to db
                 //
