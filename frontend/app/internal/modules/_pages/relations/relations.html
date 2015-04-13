@@ -1,0 +1,58 @@
+<md-content flex>
+    <md-toolbar class="md-theme-primary champs-content-toolbar">
+        <h1 class="md-toolbar-tools">Lolcomp - Edit Relations</h1>
+    </md-toolbar>
+    <div layout="column"
+         layout-align="top center"
+         layout-fill>
+        <div class="relations-new-btn-container"
+             layout="row">
+            <md-button class="md-raised relations-button"
+                       ng-click="panels.relations.add_relation()">New relation</md-button>
+            <md-button class="md-raised relations-button"
+                       ng-click="panels.relations.clear_relations()">Clear All</md-button>
+        </div>
+        <lc-panel class="relations-lc-panel"
+                  ng-show="panels.relations.model.length !== 0"
+                  lc-title="panels.relations.title"
+                  layout-align="vertical" flex>
+            <table class="internal-table">
+                <thead>
+                    <tr>
+                        <th ng-repeat="(k, v) in panels.relations.edit_model">{{k}}</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody class="internal-table-hover">
+                    <tr ng-repeat="relation in panels.relations.model">
+                        <td ng-repeat="(k, v) in relation">
+                            <div ng-hide="panels.relations.selected === $parent.$index">
+                                <div ng-if="k === color" style="background: {{v}}"></div>
+                                <div ng-if="k !== color">{{v}}</div>
+                            </div>
+                            <div class="relations-input"
+                                ng-show="panels.relations.selected === $parent.$index">
+                                <textarea ng-model="panels.relations.edit_model[k]"></textarea>
+                            </div>
+                        </td>
+                        <td ng-hide="panels.relations.selected === $index"
+                            layout="row">
+                            <md-button class="md-raised relations-button"
+                                       ng-click="panels.relations.select_relation($index)">Edit</md-button>
+                            <md-button class="md-raised relations-button"
+                                       ng-click="panels.relations.delete_relation($index)">Del</md-button>
+                        </td>
+                        <td ng-show="panels.relations.selected === $index"
+                            layout="row">
+                            <md-button class="md-raised relations-button"
+                                       ng-click="panels.relations.save_changes($index)">Save</md-button>
+                            <md-button class="md-raised relations-button"
+                                       ng-click="panels.relations.cancel_changes($index)">Cancel</md-button>
+                        </td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+        </lc-panel>
+    </div>
+</md-content>

@@ -40,6 +40,10 @@ angular.module('internal.controllers')
                             url: 'internal/rules',
                             new_page: false,
                         }, {
+                            label: 'Edit Relations',
+                            url: 'internal/relations',
+                            new_page: false,
+                        }, {
                             label: 'Database Admin',
                             url: 'admin',
                             new_page: true,

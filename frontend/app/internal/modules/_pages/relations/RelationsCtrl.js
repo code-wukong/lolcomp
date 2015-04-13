@@ -1,11 +1,12 @@
 angular.module('internal.controllers')
-    .controller('RulesCtrl', ['$scope', 'LcComms', 'LcConfig',
+    .controller('RelationsCtrl', ['$scope', 'LcComms', 'LcConfig',
         function ($scope, LcComms, LcConfig) {
             var cst;
-            var rule_schema = {
-                label: "label",
-                color: "27586B",
-                key_words: "reduces, physical",
+            var relation_schema = {
+                label: "Combo",
+                description: "%label% %k1% into %k2%",
+                k1: "Lee Sin, Q",
+                k2: "Yasuo, R",
             }
             
             LcComms.is_ready().then(function () {
@@ -16,15 +17,15 @@ angular.module('internal.controllers')
             var initialize = function () {
                 
                 $scope.panels = {
-                    rules: {
-                        title: "Rules",
+                    relations: {
+                        title: "Relations",
                         selected: null,
-                        edit_model: angular.copy(rule_schema),
-                        model: LcConfig.get("rule_definitions") || [],
-                        add_rule: function () {
-                            this.model.push(angular.copy(rule_schema))
+                        edit_model: angular.copy(relation_schema),
+                        model: LcConfig.get("relation_definitions") || [],
+                        add_relation: function () {
+                            this.model.push(angular.copy(relation_schema))
                         },
-                        delete_rule: function (index) {
+                        delete_relation: function (index) {
                             if(index !== this.selected){
                                 this.selected = null;
                             }else{
@@ -35,9 +36,9 @@ angular.module('internal.controllers')
                             this.model[index] = angular.copy(this.edit_model);
                             this.selected = null;
                             
-                            LcConfig.set("rule_definitions", this.model);
+                            LcConfig.set("relation_definitions", this.model);
                         },
-                        select_rule: function (index) {
+                        select_relation: function (index) {
                             this.selected = index;
                             this.old_model = angular.copy(this.model[index]);
                             this.edit_model = angular.copy(this.model[index]);
@@ -46,11 +47,11 @@ angular.module('internal.controllers')
                             this.model[index] = this.old_model;
                             this.selected = null;
                         },
-                        clear_rules: function () {
+                        clear_relations: function () {
                             this.model = [];
                             $scope.$apply();
                             
-                            LcConfig.set("rule_definitions", []);
+                            LcConfig.set("relation_definitions", []);
                         }
                     }
                 }

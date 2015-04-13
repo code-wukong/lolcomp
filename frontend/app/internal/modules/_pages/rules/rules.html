@@ -5,6 +5,13 @@
     <div layout="column"
          layout-align="top center"
          layout-fill>
+        <div class="rules-new-btn-container"
+             layout="row">
+            <md-button class="md-raised rules-button"
+                       ng-click="panels.rules.add_rule()">New rule</md-button>
+            <md-button class="md-raised rules-button"
+                       ng-click="panels.rules.clear_rules()">Clear All</md-button>
+        </div>
         <lc-panel class="rules-lc-panel"
                   ng-show="panels.rules.model.length !== 0"
                   lc-title="panels.rules.title"
@@ -33,7 +40,7 @@
                             <md-button class="md-raised rules-button"
                                        ng-click="panels.rules.select_rule($index)">Edit</md-button>
                             <md-button class="md-raised rules-button"
-                                       ng-click="panels.rules.delete_rule($index)">Delete</md-button>
+                                       ng-click="panels.rules.delete_rule($index)">Del</md-button>
                         </td>
                         <td ng-show="panels.rules.selected === $index"
                             layout="row">
@@ -47,9 +54,5 @@
                 </tbody>
             </table>
         </lc-panel>
-        <div class="rules-new-btn-container">
-            <md-button class="md-raised rules-button"
-                       ng-click="panels.rules.add_rule()">New rule</md-button>
-        </div>
     </div>
 </md-content>

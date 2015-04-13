@@ -102,6 +102,8 @@ body {
     }
     thead {
         background-color: $color-gray;
+        
+        text-transform: capitalize;
     }
     th, td {
         text-align: left;
