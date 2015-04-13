@@ -1,0 +1,23 @@
+.rules-row {
+    padding: 10px 0;
+}
+.rules-lc-panel {
+    .lc-panel-content {
+        padding: 0;
+    }
+}
+.rules-input {
+    max-width: 100px;
+    
+    textarea {
+        width: 100%;
+        margin-left: -4px;
+    }
+}
+.rules-new-btn-container {
+    margin: 26px;
+}
+.rules-button {
+    max-width: 150px;
+    width: 60%;
+}

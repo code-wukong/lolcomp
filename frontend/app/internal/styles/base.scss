@@ -1,6 +1,7 @@
 /* definitions */
 $color-primary: #27586B;
 $color-secondary: #FFE7AB;
+$color-gray: #F9F9F9;
 
 $font-title: 'Questrial';
 $font-content: Arial;
@@ -14,9 +15,6 @@ $lg: 1199px;
 /* fonts */
 @font-face {
     font-family: 'Questrial', sans-serif;
-}
-body {
-    font-family: $font-content;
 }
 
 /* mixins */
@@ -85,6 +83,34 @@ body {
  * (cursor, overflow, z-index, animations)
  *
  */
+
+/** GLOBAL **/
+body {
+    font-family: $font-content;
+}
+.internal-button {
+    max-width: 300px;
+    width: 60%;
+}
+.internal-table {
+    width: 100%;
+    
+    border-collapse: collapse;
+    
+    tr:nth-child(even) {
+        background-color: $color-gray;
+    }
+    thead {
+        background-color: $color-gray;
+    }
+    th, td {
+        text-align: left;
+        padding: 6px 20px;
+    }
+}
+.internal-table-hover {
+    
+}
 
 /*** Sidebar ***/
 .sidebar-toolbar {

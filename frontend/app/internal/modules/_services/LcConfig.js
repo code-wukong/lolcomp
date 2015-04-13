@@ -1,7 +1,8 @@
 angular.module("internal.services")
     .factory("LcConfig", ["LcComms", '$q',
         function (LcComms, $q) {
-            var config = {}
+            var config = {};
+            var ready_promise;
             
             var LcConfig = {
                 get: function (label) {
@@ -18,6 +19,7 @@ angular.module("internal.services")
                 },
                 initialize: function () {
                     var deferred = $q.defer();
+                    ready_promise = deferred.promise;
                     
                     var post = {
                         label: "config",
@@ -27,21 +29,13 @@ angular.module("internal.services")
                         // load config from server
                         .then(function (data) {
                             config = data;
-
-                            var post = {
-                                url: "static_data",
-                                params: {}
-                            }
-                            return LcComms.send_request("ws/riot_api_request", post)
-                        })
-                        // get the latest patch from Riot API
-                        .then(function (r) {
-                            config['latest_patch'] = r.data.version;
-                        
                             deferred.resolve();
                         })
-                    
+                        
                     return deferred.promise;
+                },
+                is_ready: function () {
+                    return ready_promise;
                 }
             };
 

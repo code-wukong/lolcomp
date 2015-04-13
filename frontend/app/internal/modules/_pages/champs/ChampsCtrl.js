@@ -6,6 +6,21 @@ angular.module('internal.controllers')
                 cst = LcComms.read_constants();
                 initialize();
             });
+            
+            var action_get_latest_patch = function () {
+                console.log("Checking for new patch ...");
+                // get the latest patch from Riot API
+                var post = {
+                    url: "static_data",
+                    params: {}
+                }
+                LcComms.send_request("ws/riot_api_request", post)
+                .then(function (r) {
+                    $scope.panels.info.latest_patch = r.data.version;
+                    LcConfig.set('latest_patch', r.data.version);
+                    console.log(".. Finished");
+                })
+            }
 
             var action_update_champs = function () {
                 console.log('Installing the latest patch to lolcomp ...');
@@ -60,6 +75,7 @@ angular.module('internal.controllers')
                         status: function () {
                             return (this.current_patch === this.latest_patch);
                         },
+                        execute: action_get_latest_patch,
                         current_patch: LcConfig.get("current_patch"),
                         latest_patch: LcConfig.get("latest_patch"),
                         time_last_updated: LcConfig.get("time_last_updated"),
@@ -67,7 +83,9 @@ angular.module('internal.controllers')
                     },
                     update_champs: {
                         title: "Update Champion Static Data",
-                        status: true,
+                        status: function () {
+                            return ($scope.panels.info.current_patch === $scope.panels.info.latest_patch);
+                        },
                         execute: action_update_champs
                     },
                     analyze_champs: {

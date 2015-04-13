@@ -2,9 +2,54 @@
     <md-toolbar class="md-theme-primary champs-content-toolbar">
         <h1 class="md-toolbar-tools">Lolcomp - Edit Rules</h1>
     </md-toolbar>
-    <div layout="column" layout-align="top center"
-         layout-padding layout-fill>
-        RULES
+    <div layout="column"
+         layout-align="top center"
+         layout-fill>
+        <lc-panel class="rules-lc-panel"
+                  ng-show="panels.rules.model.length !== 0"
+                  lc-title="panels.rules.title"
+                  layout-align="vertical" flex>
+            <table class="internal-table">
+                <thead>
+                    <tr>
+                        <th ng-repeat="(k, v) in panels.rules.edit_model">{{k}}</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody class="internal-table-hover">
+                    <tr ng-repeat="rule in panels.rules.model">
+                        <td ng-repeat="(k, v) in rule">
+                            <div ng-hide="panels.rules.selected === $parent.$index">
+                                <div ng-if="k === color" style="background: {{v}}"></div>
+                                <div ng-if="k !== color">{{v}}</div>
+                            </div>
+                            <div class="rules-input"
+                                ng-show="panels.rules.selected === $parent.$index">
+                                <textarea ng-model="panels.rules.edit_model[k]"></textarea>
+                            </div>
+                        </td>
+                        <td ng-hide="panels.rules.selected === $index"
+                            layout="row">
+                            <md-button class="md-raised rules-button"
+                                       ng-click="panels.rules.select_rule($index)">Edit</md-button>
+                            <md-button class="md-raised rules-button"
+                                       ng-click="panels.rules.delete_rule($index)">Delete</md-button>
+                        </td>
+                        <td ng-show="panels.rules.selected === $index"
+                            layout="row">
+                            <md-button class="md-raised rules-button"
+                                       ng-click="panels.rules.save_changes($index)">Save</md-button>
+                            <md-button class="md-raised rules-button"
+                                       ng-click="panels.rules.cancel_changes($index)">Cancel</md-button>
+                        </td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+        </lc-panel>
+        <div class="rules-new-btn-container">
+            <md-button class="md-raised rules-button"
+                       ng-click="panels.rules.add_rule()">New rule</md-button>
+        </div>
     </div>
-    <div flex></div>
 </md-content>
