@@ -5,7 +5,6 @@ angular.module('main.routing')
 
                 .when('/', {
                     templateUrl: '_pages/home/home.html',
-                        // this splash page then redirects to the admin page
                 })
                 
                 .otherwise({

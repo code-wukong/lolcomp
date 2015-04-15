@@ -3,9 +3,9 @@ angular.module('internal.controllers')
         function ($scope, LcComms, LcConfig) {
             var cst;
             var rule_schema = {
-                label: "label",
+                label: "Knockup",
                 color: "27586B",
-                key_words: "reduces, physical",
+                key_words: "knock AND enem",
                 exceptions: ""
             };
 

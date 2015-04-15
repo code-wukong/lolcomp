@@ -7,6 +7,7 @@ import os, re, json
 CST = {
     'lolcomp_analyzed_champs': 'Lolcomp_Analyzed_Champs',
     'config': 'Config',
+    'champ_data': 'Champ_Data',
     'tag_defs': 'Tag_Definitions',
     'relation_defs': 'Relation_Definitions',
     'urf_matches': 'Urf_Matches',

@@ -12,11 +12,11 @@ angular.module('internal.controllers')
                         type: cst.type.synergy,
                         k1: {
                             obj_type: "tag",
-                            data: null
+                            data: "Knockup"
                         },
                         k2: {
                             obj_type: "exception",
-                            data: null
+                            data: {champ:"Yasuo", skill:"R"}
                         },
                     };
                 

@@ -30,15 +30,26 @@ def cst_sitedown(request):
 # retrieve constants for app main
 def cst_main(request):
     if request.method == 'POST':
-        post = json.loads(request.body)
-
+        
+        # Get Lolcomp Analysis Report
+        query_set = Static.objects.filter(label=CST['lolcomp_analyzed_champs'])
+        if(query_set):
+            report = json.loads(query_set[0].definition)
+        else:
+            report = 'error'
+            
+        # Get Static Champ Data
+        query_set = Static.objects.filter(label=CST['champ_data'])
+        if(query_set):
+            champ_data = query_set[0].definition
+        else:
+            champ_data = 'error'
+            
         data = {
             'static_url': os.environ.get('DJANGO_STATIC_HOST', False),
-            'jarvan': im_jarvan(),
+            'lolcomp_report': report,
+            'static_data': json.loads(champ_data)
         }
-        
-        if(post['test'] == 'wuju'):
-            data['compromised'] = True
         
         return HttpResponse(json.dumps(data), content_type='application/json')
     else:
@@ -156,6 +167,16 @@ def update_champs_data(request):
         if data['patch'] == 'error':
             data['response'] = r.json()
         else:
+            # Record to DB
+            query_set = Static.objects.filter(label=CST['champ_data'])
+            if(query_set):
+                static_obj = query_set[0]
+                static_obj.definition = json.dumps(champ_data['data'])
+                static_obj.save()
+            else:
+                static_obj = Static(label=CST['champ_data'], definition=json.dumps(champ_data['data']))
+                static_obj.save()
+        
             # overwrite the previous data
             champion_db = Champion.objects.all()
             if champion_db:
