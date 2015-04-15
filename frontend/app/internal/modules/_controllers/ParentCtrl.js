@@ -32,7 +32,7 @@ angular.module('internal.controllers')
                 $scope.sidebar = {
                     model: [
                         {
-                            label: 'Edit Champs',
+                            label: 'Lolcomp Lab',
                             url: 'internal/champs',
                             new_page: false,
                         }, {

@@ -6,6 +6,7 @@ angular.module('internal.controllers')
                 label: "label",
                 color: "27586B",
                 key_words: "reduces, physical",
+                exceptions: ""
             };
 
             LcComms.is_ready()
@@ -34,7 +35,8 @@ angular.module('internal.controllers')
                                 mode: "write",
                                 data: this.model
                             };
-                            LcComms.send_request("ws/rw_static_def", post)
+                            LcComms.send_request("ws/rw_static_def", post);
+                            LcConfig.set("analysis_new_rules", true);
                         },
                         add_rule: function () {
                             this.model.push(angular.copy(rule_schema))
@@ -65,7 +67,6 @@ angular.module('internal.controllers')
                         },
                         clear_rules: function () {
                             this.model = [];
-                            $scope.$apply();
 
                             this.save_to_db();
                         }

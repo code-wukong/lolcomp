@@ -16,14 +16,15 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('label', models.CharField(max_length=255)),
                 ('definition', models.TextField()),
-                ('relation_map', models.TextField()),
             ],
         ),
         migrations.CreateModel(
             name='Relation',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('type', models.TextField(null=True)),
                 ('definition', models.TextField()),
+                ('champs', models.ManyToManyField(to='ws.Champion', null=True)),
             ],
         ),
         migrations.CreateModel(
@@ -32,7 +33,8 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('label', models.CharField(max_length=255)),
                 ('definition', models.TextField()),
-                ('champ', models.OneToOneField(null=True, to='ws.Champion')),
+                ('key', models.CharField(max_length=32)),
+                ('champ', models.ForeignKey(to='ws.Champion', null=True)),
             ],
         ),
         migrations.CreateModel(
@@ -54,16 +56,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='skill',
             name='tags',
-            field=models.ForeignKey(to='ws.Tag', null=True),
-        ),
-        migrations.AddField(
-            model_name='relation',
-            name='key1',
-            field=models.ForeignKey(to='ws.Skill', null=True),
-        ),
-        migrations.AddField(
-            model_name='champion',
-            name='skills',
-            field=models.ForeignKey(to='ws.Skill', null=True),
+            field=models.ManyToManyField(to='ws.Tag', null=True),
         ),
     ]

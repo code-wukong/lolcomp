@@ -1,0 +1,22 @@
+<div layout="column">
+    <md-checkbox class="md-primary"
+                 aria-label="Exception"
+                 ng-change="update_edit_model()"
+                 ng-model="is_exception">
+        Exception
+    </md-checkbox>
+    <div layout="row"
+         ng-show="is_exception">
+        <input type="text"
+               flex="70"
+               ng-model="edit_model.exception.champ"></input>
+        <select ng-options="v.label as v.label group by v.group for v in skill_types"
+                flex="30"
+                ng-model="edit_model.exception.skill"></select>
+    </div>
+    <div layout="row"
+         ng-hide="is_exception">
+        <input type="text"
+               ng-model="edit_model.tag"></input>
+    </div>
+</div>

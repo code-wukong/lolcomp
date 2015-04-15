@@ -1,6 +1,6 @@
 <md-content flex>
     <md-toolbar class="md-theme-primary champs-content-toolbar">
-        <h1 class="md-toolbar-tools">Lolcomp - Edit Relations</h1>
+        <h1 class="md-toolbar-tools">Lolcomp - Edit Relations Rules</h1>
     </md-toolbar>
     <div layout="column"
          layout-align="top center"
@@ -19,22 +19,67 @@
             <table class="internal-table">
                 <thead>
                     <tr>
-                        <th ng-repeat="(k, v) in panels.relations.edit_model">{{k}}</th>
+                        <th>type</th>
+                        <th>description</th>
+                        <th>k1</th>
+                        <th>k2</th>
+                        <th>label</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody class="internal-table-hover">
                     <tr ng-repeat="relation in panels.relations.model">
-                        <td ng-repeat="(k, v) in relation">
-                            <div ng-hide="panels.relations.selected === $parent.$index">
-                                <div ng-if="k === color" style="background: {{v}}"></div>
-                                <div ng-if="k !== color">{{v}}</div>
+                        <td ng-hide="panels.relations.selected === $index"
+                            class="relations-type">{{relation.type}}</td>
+                        <td ng-show="panels.relations.selected === $index"
+                            class="relations-type">
+                            <select ng-options="v as v for (k, v) in cst.type"
+                                    ng-model="panels.relations.edit_model.type"></select>
+                        </td>
+                        
+                        <td ng-hide="panels.relations.selected === $index"
+                            class="relations-desciption">{{relation.description}}</td>
+                        <td ng-show="panels.relations.selected === $index"
+                            class="relations-desciption">
+                            <textarea ng-model="panels.relations.edit_model.description"></textarea>
+                        </td>
+                        
+                        <td ng-hide="panels.relations.selected === $index">
+                            <div ng-if="relation.k1.obj_type == 'tag'">
+                                {{relation.k1.data}}
                             </div>
-                            <div class="relations-input"
-                                ng-show="panels.relations.selected === $parent.$index">
-                                <textarea ng-model="panels.relations.edit_model[k]"></textarea>
+                            <div ng-if="relation.k1.obj_type == 'exception'">
+                                {{relation.k1.data.champ}} {{relation.k1.data.skill}}
                             </div>
                         </td>
+                        <td ng-show="panels.relations.selected === $index"
+                            class="relations-input">
+                            <lc-edit-rel-obj-type lc-edit-model="panels.relations.edit_model.k1"
+                                                  lc-original="relation.k1"></lc-edit-rel-obj-type>
+                        </td>
+                        
+                        <td ng-hide="panels.relations.selected === $index">
+                            <div ng-if="relation.k2.obj_type == 'tag'">
+                                {{relation.k2.data}}
+                            </div>
+                            <div ng-if="relation.k2.obj_type == 'exception'">
+                                {{relation.k2.data.champ}} {{relation.k2.data.skill}}
+                            </div>
+                        </td>
+                        <td ng-show="panels.relations.selected === $index"
+                            class="relations-input">
+                            <lc-edit-rel-obj-type lc-edit-model="panels.relations.edit_model.k2"
+                                                  lc-original="relation.k2"></lc-edit-rel-obj-type>
+                        </td>
+                        
+                        <td ng-hide="panels.relations.selected === $index"
+                            class="relations-label">{{relation.label}}</td>
+                        <td ng-show="panels.relations.selected === $index"
+                            class="relations-label">
+                            <input type="text"
+                                   ng-model="panels.relations.edit_model.label"></input>
+                        </td>
+                        
                         <td ng-hide="panels.relations.selected === $index"
                             layout="row">
                             <md-button class="md-raised relations-button"

@@ -1,80 +1,107 @@
 <md-content flex>
     <md-toolbar class="md-theme-primary champs-content-toolbar">
-        <h1 class="md-toolbar-tools">Lolcomp - Edit Champs</h1>
+        <h1 class="md-toolbar-tools">Lolcomp - Update Champ Data</h1>
     </md-toolbar>
-    <div layout="column"
-         layout-align="top center"
-         layout-fill>
-        <lc-panel lc-title="panels.info.title">
+        <lc-panel class="champs-panel"
+                  lc-title="panels.info.title">
             <div layout="row">
-                <div layout="row" layout-align="start center"
-                     flex="50">
-                    <div class="champs-info-indicator">
-                        <lc-led ng-class="{'led-red' : panels.info.status() === false,
-                                           'led-green' : panels.info.status() === true}"></lc-led></div>
-                    <span flex>{{panels.info.msg}}</span>
+                <div layout="column"
+                     flex="60">
+                    <div layout="row" layout-align="start center">
+                        <div class="champs-info-indicator">
+                            <lc-led ng-class="{'led-red' : panels.info.status() === false,
+                                               'led-green' : panels.info.status() === true}"></lc-led></div>
+                        <span flex ng-bind="panels.info.msg"></span>
+                    </div>
+                    <span class="champs-update-no-led"
+                          layout="row" layout-align="start center">Patch Installed:&nbsp;<strong>{{panels.info.current_patch || '-'}}</strong></span>
                 </div>
-                <div flex="50">
+                <div class="champs-btn-container"
+                     flex="40">
                     <md-button class="md-raised internal-button"
-                               ng-click="panels.info.execute()">Check for New Patch</md-button>
+                               aria-label="panels.info.btn_txt"
+                               ng-hide="panels.info.loading"
+                               ng-click="panels.info.execute()"
+                               ng-bind="panels.info.btn_txt"></md-button>
+                    <div layout="row" layout-sm="column" layout-align="space-around"
+                         ng-show="panels.info.loading">
+                        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+                    </div>
                 </div>
             </div>
+        </lc-panel>
+        
+        <lc-panel class="champs-panel"
+                  lc-title="panels.update_champs.title">
             <div layout="row">
-                <span class="champs-update-no-led"
-                      layout="row" layout-align="start center"
-                      flex="50">Patch Installed:&nbsp;<strong>{{panels.info.current_patch || '-'}}</strong></span>
+                <div layout="column"
+                     layout="start center"
+                     flex="60">
+                    <div layout="row" layout-align="start center">
+                        <div class="champs-info-indicator">
+                            <lc-led ng-class="{'led-red' : panels.update_champs.status() === false,
+                                    'led-green' : panels.update_champs.status() === true}"></lc-led></div>
+                        <div flex>
+                            <span ng-bind="panels.update_champs.msg"></span>
+                        </div>
+                    </div>
+                    <div class="champs-row"
+                         layout="row">
+                        <span class="champs-update-no-led"
+                              flex="50">Last Updated: <strong>{{_helpers.format_date(panels.info.time_last_updated) || '-'}}</strong>
+                        </span>
+                    </div>
+                </div>
+                <div class="champs-btn-container"
+                     flex="40">
+                    <md-button class="md-raised internal-button"
+                               aria-label="panels.update_champs.btn_txt"
+                               ng-hide="panels.update_champs.loading"
+                               ng-click="panels.update_champs.execute()"
+                               ng-bind="panels.update_champs.btn_txt"></md-button>
+                    <div layout="row" layout-sm="column" layout-align="space-around"
+                         ng-show="panels.update_champs.loading">
+                        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+                    </div>
+                </div>
             </div>
         </lc-panel>
 
-        <lc-panel lc-title="panels.update_champs.title">
-            <div class="champs-row"
-                 layout="row" layout-align="start center">
-                <div layout="row" layout-align="start center"
-                     flex="50">
-                    <div class="champs-info-indicator">
-                        <lc-led ng-class="{'led-red' : panels.update_champs.status() === false,
-                                'led-green' : panels.update_champs.status() === true}"></lc-led></div>
-                    <div flex>
-                        <span ng-if="panels.update_champs.status() === false">Current dataset needs to be updated</span>
-                        <span ng-if="panels.update_champs.status() === true">Good</span>
+        <lc-panel class="champs-panel"
+                  lc-title="panels.analyze_champs.title">
+            <div layout="row">
+                <div layout="column"
+                     layout="start center"
+                     flex="60">
+                    <div layout="row" layout-align="start center">
+                        <div class="champs-info-indicator">
+                            <lc-led ng-class="{'led-red' : panels.analyze_champs.status == false,
+                                               'led-orange' : panels.analyze_champs.outdated == true,
+                                               'led-blue' : panels.analyze_champs.new_rules_avail == true,
+                                               'led-green' : panels.analyze_champs.status == true}"></lc-led></div>
+                        <div flex>
+                            <span ng-bind="panels.analyze_champs.msg"></span>
+                        </div>
+                    </div>
+                    <div class="champs-row"
+                         layout="row">
+                        <span class="champs-update-no-led"
+                              flex="50">Last Updated: <strong>{{_helpers.format_date(panels.info.time_last_analyzed) || '-'}}</strong>
+                        </span>
                     </div>
                 </div>
-                <div flex="50">
+                <div class="champs-btn-container"
+                     flex="40">
                     <md-button class="md-raised internal-button"
-                               ng-click="panels.update_champs.execute()">Update</md-button>
-                </div>
-            </div>
-            <div class="champs-row"
-                 layout="row">
-                <span class="champs-update-no-led"
-                      flex="50">Last Updated: <strong>{{_helpers.format_date(panels.info.time_last_updated)}}</strong>
-                </span>
-            </div>
-        </lc-panel>
-
-        <lc-panel lc-title="panels.analyze_champs.title">
-            <div layout="row" layout-align="start center">
-                <div layout="row" layout-align="start center"
-                     flex="50">
-                    <div class="champs-info-indicator">
-                        <lc-led ng-class="{'led-red' : panels.analyze_champs.status == false,
-                                           'led-orange' : panels.analyze_champs.outdated == true,
-                                           'led-green' : panels.analyze_champs.status == true}"></lc-led></div>
-                    <div flex>
-                        <span ng-if="panels.analyze_champs.status === true">Good</span>
-                        <span ng-if="panels.analyze_champs.status === false">Current dataset needs to be analyzed</span>
+                               aria-label="panels.analyze_champs.btn_txt"
+                               ng-hide="panels.analyze_champs.loading"
+                               ng-click="panels.analyze_champs.execute()"
+                               ng-bind="panels.analyze_champs.btn_txt"></md-button>
+                    <div layout="row" layout-sm="column" layout-align="space-around"
+                         ng-show="panels.analyze_champs.loading">
+                        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
                     </div>
                 </div>
-                <div flex="50">
-                    <md-button class="md-raised internal-button"
-                               ng-click="panels.analyze_champs.execute()">Analyze</md-button>
-                </div>
-            </div>
-            <div class="champs-row"
-                 layout="row">
-                <span class="champs-update-no-led"
-                      flex="50">Last Updated: <strong>{{_helpers.format_date(panels.info.time_last_analyzed)}}</strong>
-                </span>
             </div>
         </lc-panel>
 

@@ -3,18 +3,16 @@
 }
 .relations-lc-panel {
     margin-top: 0 !important;
+    input[type="text"] {
+        width: 100px;
+    }
     
     .lc-panel-content {
         padding: 0;
     }
 }
 .relations-input {
-    max-width: 100px;
-    
-    textarea {
-        width: 100%;
-        margin-left: -4px;
-    }
+    max-width: 150px;
 }
 .relations-new-btn-container {
     margin: 10px 16px;
@@ -24,4 +22,15 @@
     width: 60%;
     
     margin: 10px;
+}
+.relations-description {
+    width: 200px;
+}
+.internal-table {
+    td {
+        min-width: 140px;
+    }
+}
+.relations-label input {
+    width: 100px;
 }

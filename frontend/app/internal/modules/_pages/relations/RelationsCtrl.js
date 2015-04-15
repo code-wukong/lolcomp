@@ -1,17 +1,25 @@
 angular.module('internal.controllers')
     .controller('RelationsCtrl', ['$scope', 'LcComms', 'LcConfig',
         function ($scope, LcComms, LcConfig) {
-            var cst;
-            var relation_schema = {
-                label: "Combo",
-                description: "%label% %k1% into %k2%",
-                k1: "Lee Sin, Q",
-                k2: "Yasuo, R",
-            };
+            var cst, relation_schema;
 
             LcComms.is_ready()
                 .then(function () {
                     cst = LcComms.read_constants();
+                    relation_schema = {
+                        label: "Combo",
+                        description: "%label% %k1% into %k2%",
+                        type: cst.type.synergy,
+                        k1: {
+                            obj_type: "tag",
+                            data: null
+                        },
+                        k2: {
+                            obj_type: "exception",
+                            data: null
+                        },
+                    };
+                
                 });
             LcComms.send_request("ws/rw_static_def", {label: "relation_defs", mode: "read"})
                 .then(function (data) {
@@ -22,7 +30,7 @@ angular.module('internal.controllers')
                 })
 
             var initialize = function () {
-
+                
                 $scope.panels = {
                     relations: {
                         title: "Relations",
@@ -35,7 +43,8 @@ angular.module('internal.controllers')
                                 mode: "write",
                                 data: this.model
                             };
-                            LcComms.send_request("ws/rw_static_def", post)
+                            LcComms.send_request("ws/rw_static_def", post);
+                            LcConfig.set("analysis_new_rules", true);
                         },
                         add_relation: function () {
                             this.model.push(angular.copy(relation_schema))
@@ -66,7 +75,6 @@ angular.module('internal.controllers')
                         },
                         clear_relations: function () {
                             this.model = [];
-                            $scope.$apply();
 
                             this.save_to_db();
                         }
