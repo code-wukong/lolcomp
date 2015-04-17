@@ -5,7 +5,8 @@ var main = angular.module("main", [
     "main.directives",
     "main.services",
     "ngCookies",
-    "ngMaterial"
+    "ngMaterial",
+    "ngScrollSpy"
 ]).config(["$mdThemingProvider",
     function ($mdThemingProvider) {
         // Extend the blue-grey theme with a few different colors

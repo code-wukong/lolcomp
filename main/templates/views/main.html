@@ -10,10 +10,41 @@
         <link rel="stylesheet" href="{% static 'main.min.css' %}">
         <link href='https://fonts.googleapis.com/css?family=Questrial' rel='stylesheet' type='text/css'>
     </head>
-    <body ng-controller="ParentCtrl">
+    <body ng-controller="ParentCtrl"
+          layout="column"
+          layout-fill
+          layout-align="start center">
+
+        <section class="top-fold"
+                 layout="row"
+                 layout-align="center center">
+            <div class="code-wukong"
+                 flex="33"
+                 layout="row"
+                 layout-align="center center">
+                <img src="{% static 'img/codewukong.png' %}"></img>
+            </div>
+            <div class="site-title"
+                 flex="33">
+                LOLCOMP
+            </div>
+            <div flex="33"></div>
+            
+        </section>
         
-        <ng-view flex></ng-view>
-        
-        <script src="{% static 'main.min.js' %}"></script>
-    </body>
+    <nav class="navbar"
+         affix
+         layout="row"
+         layout-align="start center">
+        <a class="navbar-item"
+           ng-repeat="item in navbar.model"
+           href="{{item.url}}"
+           ng-bind="item.text"></a>
+    </nav>
+
+    <ng-view flex></ng-view>
+    
+
+    <script src="{% static 'main.min.js' %}"></script>
+</body>
 </html>

@@ -16,9 +16,9 @@ angular.module("main.directives")
                         position: {
                             img: get_pos(1, 3),
                             synergy: get_pos(2, 3),
-                            counters: get_pos(3, 3),
+                            counter: get_pos(3, 3),
                         },
-                        url: "http://ddragon.leagueoflegends.com/cdn/img/champion/loading/MonkeyKing_2.jpg"
+                        url: "http://ddragon.leagueoflegends.com/cdn/img/champion/loading/MonkeyKing_2.jpg",
                     };
                     scope.text = {
                         synergy: "Synergy",
@@ -55,7 +55,8 @@ angular.module("main.directives")
                 scope: {
                     lcSide: "@",
                     lcModel: "=",
-                    lcDdragon: "="
+                    lcStatic: "=",
+                    lcEnemies: "="
                 },
                 link: lcChampionRowLinkFn
             };

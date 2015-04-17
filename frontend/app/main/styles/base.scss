@@ -60,7 +60,7 @@ $font-title: 'Questrial';
 }
 @mixin opacity($settings) {
     opacity: $settings;
-	filter: alpha(opacity=($settings*100)); /* IE6+ */
+    filter: alpha(opacity=($settings*100)); /* IE6+ */
 }
 @mixin background-clip($settings) {
     -webkit-background-clip: $settings;
@@ -95,4 +95,51 @@ $font-title: 'Questrial';
 body {
     background-color: $color-primary;
     font-family: $font-title;
+}
+
+/*** TOP-FOLD ***/
+.top-fold {
+    width: 100%;
+    
+    background-color: #fff;
+    border-bottom: 10px solid black;
+    
+    .code-wukong img {
+        height: 240px;
+        padding: 12px;
+    }
+    .site-title {
+        font-size: 80px;
+        text-align: center;
+    }
+}
+
+/*** NAVBAR ***/
+.navbar {
+    height: 64px;
+    width: 90%;
+    margin-top: -30px;
+    
+    background-color: #000;
+    @include box-shadow(0 2px 5px 0 rgba(0,0,0,.26));
+    
+    @include transition(all 0.4s);
+}
+.affix {
+    position: fixed;
+    top: 0;
+    
+    height: 40px;
+    width: 100%;
+    margin-top: 0;
+    
+    z-index: 9000;
+}
+.navbar-item {
+    padding: 0 20px;
+
+    font-size: 20px;
+    color: #fff;
+
+    text-decoration: none;
 }

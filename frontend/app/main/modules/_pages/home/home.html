@@ -1,12 +1,3 @@
-
-<nav class="navbar"
-     layout="row">
-    <a class="navbar-item"
-         ng-repeat="item in navbar.model"
-         href="{{item.url}}"
-         ng-bind="item.text"></a>
-</nav>
-
 <section class="champ-selection"
          layout="row"
          layout-align="center start">
@@ -15,14 +6,16 @@
         <lc-champion-row ng-repeat="obj in selection.model.blue"
                          lc-side="blue"
                          lc-model="obj"
-                         lc-ddragon="static.ddragon_url"></lc-champion-row>
+                         lc-enemies="selection.model.red"
+                         lc-static="static"></lc-champion-row>
     </div>
     <div class="champ-list md-whiteframe-z2"
          layout="column">
         <lc-champion-row ng-repeat="obj in selection.model.red"
                          lc-side="red"
                          lc-model="obj"
-                         lc-ddragon="static.ddragon_url"></lc-champion-row>
+                         lc-enemies="selection.model.blue"
+                         lc-static="static"></lc-champion-row>
     </div>
 
 </section>

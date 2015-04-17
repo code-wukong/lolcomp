@@ -56,6 +56,15 @@ angular.module('main.controllers')
                                  + extension
                         return url;
                     }
+                };
+                $scope.navbar = {
+                    model: [{
+                        text: "Home",
+                        url: "/"
+                    }, {
+                        text: "About",
+                        url: "/about"
+                    }]
                 }
             }
 
