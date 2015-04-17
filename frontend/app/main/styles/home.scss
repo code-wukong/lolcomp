@@ -1,8 +1,16 @@
+.quick-select {
+    margin: 20px;
+}
 .champ-selection {
+    lc-champion-row {
+        border-bottom: 1px solid rgba(0,0,0,0.8);
+    }
     .champ-list {
-        background-color: #fff;
-        margin: 40px 20px;
+        margin: 0 20px;
         
+        background-color: #fff;
+        
+        border-radius: 4px;
         border: 10px solid $color-border;
     }
 }

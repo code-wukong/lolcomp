@@ -1,21 +1,30 @@
 <div>
-    <md-toolbar class="lc-subnav lc-black"
-                md-scroll-shrink
-                layout="row"
-                layout-align="center center">
-        <div flex="30"
-             flex-order="{{settings.position.img}}"
+    <md-toolbar 
+        class="lc-subnav lc-black"
+        md-scroll-shrink
+        layout="row"
+        layout-align="center center">
+        <div class="remove-champ"
+             flex="10"
+             flex-order="{{get_pos(1, 4)}}">
+            <span class="icon-cross"
+                  ng-click="lcRemove(lcSide, lcIndex)"></span>
+        </div>
+        <div class="lc-champ-title"
+             flex="30"
+             flex-order="{{get_pos(2, 4)}}"
              ng-class="{'lc-active' : settings.selected === 0 && lcModel.expanded === true}"
              ng-click="toggle_expand(0)">
-            <span>{{settings.champ_obj.champ}}</span></div>
+            <span>{{lcModel.name || '-'}}</span>
+        </div>
         <div flex="30"
-             flex-order="{{settings.position.synergy}}"
+             flex-order="{{get_pos(3, 4)}}"
              ng-class="{'lc-active' : settings.selected === 1}"
              class="lc-synergy"
              ng-click="toggle_expand(1)">
             <span>Synergy</span></div>
         <div flex="30"
-             flex-order="{{settings.position.counter}}"
+             flex-order="{{get_pos(4, 4)}}"
              ng-class="{'lc-active' : settings.selected === 2,
              'lc-blue' : lcSide==='blue',
              'lc-red' : lcSide==='red'}"
@@ -28,8 +37,8 @@
          layout="row"
          layout-align="center start">
         <div class="lc-img"
-             ng-style="{'background-image':'url('+settings.url+')'}"
-             flex-order="{{settings.position.img}}"
+             ng-style="{'background-image': images_url.champ()}"
+             flex-order="{{get_pos(2, 4)}}"
              flex="30"
              ng-click="lcModel.expanded = false; settings.selected = 0;">
         </div>
@@ -37,35 +46,39 @@
         <div class="lc-info"
              ng-class="{'lc-info-red' : lcSide==='red',
                         'lc-info-blue': lcSide==='blue'}"
-             flex-order="{{settings.position.synergy}}"
+             flex-order="{{get_pos(3, 4)}}"
              flex="60">
             <md-content class="md-padding lc-info-content">
                 <md-tabs md-dynamic-height md-border-bottom
-                         md-scroll-shrink
                          md-selected="settings.selected"
                          md-stretch-tabs="never"
                          class="lc-info-tabs">
                     <md-tab label="info"
                             ng-click="toggle_expand(0)">
-                        <md-content class="md-padding lc-info-tab-content">
-                            <h1 class="md-display-2">{{settings.champ_obj.champ}}</h1>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis ante augue. Phasellus volutpat neque ac dui mattis vulputate. Etiam consequat aliquam cursus. In sodales pretium ultrices. Maecenas lectus est, sollicitudin consectetur felis nec, feugiat ultricies mi.</p>
+                        <md-content class="md-padding lc-info-tab-content"
+                                    layout="column">
+                            <h1 class="md-display-2">Stats</h1>
+                            <p>Stats Stats Stats</p>
                         </md-content>
                     </md-tab>
                     <md-tab label="synergy"
                             ng-click="toggle_expand(1)">
                         <md-content class="md-padding lc-info-tab-content">
-                            <h1 class="md-display-2">Passive Q W E R</h1>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis ante augue. Phasellus volutpat neque ac dui mattis vulputate. Etiam consequat aliquam cursus. In sodales pretium ultrices. Maecenas lectus est, sollicitudin consectetur felis nec, feugiat ultricies mi.</p>
+                            <div ng-repeat="obj in settings.my_team">
+                                <div ng-if="obj.name && obj.name !== lcModel.name">
+                                    <h4 class="md-display-2 lc-breakdown-champ-title">with {{obj.name}}</h4>
+                                    <div ng-repeat="v in report.get_section(lcModel.name, obj.name, 'Synergy')">{{v}}</div>
+                                </div>
+                            </div>
                         </md-content>
                     </md-tab>
                     <md-tab label="counter"
                             ng-click="toggle_expand(2)">
                         <md-content class="md-padding lc-info-tab-content">
-                            <h1 class="md-display-2">Passive Q W E R</h1>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis ante augue. Phasellus volutpat neque ac dui mattis vulputate. Etiam consequat aliquam cursus. In sodales pretium ultrices. Maecenas lectus est, sollicitudin consectetur felis nec, feugiat ultricies mi. Aliquam erat volutpat. Nam placerat, tortor in ultrices porttitor, orci enim rutrum enim, vel tempor sapien arcu a tellus. Vivamus convallis sodales ante varius gravida. Curabitur a purus vel augue ultrices ultricies id a nisl. Nullam malesuada consequat diam, a facilisis tortor volutpat et. Sed urna dolor, aliquet vitae posuere vulputate, euismod ac lorem. Sed felis risus, pulvinar at interdum quis, vehicula sed odio. Phasellus in enim venenatis, iaculis tortor eu, bibendum ante. Donec ac tellus dictum neque volutpat blandit. Praesent efficitur faucibus risus, ac auctor purus porttitor vitae. Phasellus ornare dui nec orci posuere, nec luctus mauris semper.</p>
-                            <p>Morbi viverra, ante vel aliquet tincidunt, leo dolor pharetra quam, at semper massa orci nec magna. Donec posuere nec sapien sed laoreet. Etiam cursus nunc in condimentum facilisis. Etiam in tempor tortor. Vivamus faucibus egestas enim, at convallis diam pulvinar vel. Cras ac orci eget nisi maximus cursus. Nunc urna libero, viverra sit amet nisl at, hendrerit tempor turpis. Maecenas facilisis convallis mi vel tempor. Nullam vitae nunc leo. Cras sed nisl consectetur, rhoncus sapien sit amet, tempus sapien.</p>
-                            <p>Integer turpis erat, porttitor vitae mi faucibus, laoreet interdum tellus. Curabitur posuere molestie dictum. Morbi eget congue risus, quis rhoncus quam. Suspendisse vitae hendrerit erat, at posuere mi. Cras eu fermentum nunc. Sed id ante eu orci commodo volutpat non ac est. Praesent ligula diam, congue eu enim scelerisque, finibus commodo lectus.</p>
+                            <div ng-repeat="obj in settings.enemy_team">
+                                <h4 class="md-display-2 lc-breakdown-champ-title"
+                                    ng-if="obj.name">vs {{obj.name}}</h4>
+                            </div>
                         </md-content>
                     </md-tab>
                 </md-tabs>
@@ -74,12 +87,12 @@
 
         <div class="lc-other-team"
              ng-class="{'hide-cover' : lcSide==='red'}"
-             flex-order="{{settings.position.counter}}"
+             flex-order="{{get_pos(4, 4)}}"
              flex="10"
              ng-click="lcModel.expanded = false; settings.selected = 0;">
-            <div ng-repeat="obj in lcEnemies"
-                 class="lc-other-team-member"
-                 ng-style="{'background-image':'url('+lcStatic.ddragon_url('square', {champ:obj.champ})+')'}"></div>
+            <div class="lc-skill-img"
+                 ng-repeat="v in spells"
+                 ng-style="{'background-image': images_url.spell(v)}"></div>
         </div>
 
     </div>

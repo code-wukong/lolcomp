@@ -1,30 +1,50 @@
 angular.module("main.directives")
-    .factory("lcChampionRowLinkFn", ["LcComms", "$window",
-        function (LcComms, $window) {
+    .factory("lcChampionRowLinkFn", ["LcComms",
+        function (LcComms) {
             return function (scope, elem, attrs) {
-                var get_pos = function (i, n) {
+                scope.get_pos = function (i, n) {
                     if (scope.lcSide === 'blue') return i;
                     
                     var right_side = n + 1
                     return -i + right_side;
                 };
 
-                LcComms.is_ready().then(function () {
+                LcComms.is_ready().then(function (data) {
+                    if(angular.isUndefined(scope.lcModel) === false){
+                        initialize();
+                        scope.report = {
+                            model: data.lolcomp_report,
+                            get_section: function (champ1, champ2, type) {
+                                var rel_list = this.model[champ1][type][champ2];
+                                return rel_list;
+                            }
+                        }
+                    }
+                });
+                
+                var initialize = function () {
                     scope.settings = {
-                        champ_obj: scope.lcModel,
-                        selected: -1,
-                        position: {
-                            img: get_pos(1, 3),
-                            synergy: get_pos(2, 3),
-                            counter: get_pos(3, 3),
-                        },
-                        url: "http://ddragon.leagueoflegends.com/cdn/img/champion/loading/MonkeyKing_2.jpg",
+                        selected: 0,
+                        my_team: (scope.lcSide==='blue' ? scope.lcTeams.blue : scope.lcTeams.red),
+                        enemy_team: (scope.lcSide==='blue' ? scope.lcTeams.red : scope.lcTeams.blue),
                     };
-                    scope.text = {
-                        synergy: "Synergy",
-                        counter: "Counters"
+                    scope.spells = ['Passive', 'Q', 'W', 'E', 'R'];
+                    scope.images_url = {
+                        champ: function () {
+                            if(scope.lcModel.key === '')
+                                return ''
+                            else
+                                return 'url('+scope.lcStatic.ddragon_url('loading', scope.lcModel)+')'
+                        },
+                        spell: function (spell) {
+                            if(scope.lcModel.key === '')
+                                return ''
+                            else
+                                return 'url('+scope.lcStatic.ddragon_url('spell', {key:scope.lcModel.key,spell:spell})+')'
+                        }
                     };
                     scope.toggle_expand = function (type) {
+                        if(scope.lcModel.key === '') return;
                         
                         if(scope.lcModel.expanded === true){
                             if(type !== scope.settings.selected){
@@ -43,7 +63,7 @@ angular.module("main.directives")
                             angular.element(elem.children()[1].children[1])[0].scrollTop = 0;
                         }
                     };
-                });
+                }
             };
         }])
     .directive("lcChampionRow", ["lcChampionRowLinkFn",
@@ -56,7 +76,9 @@ angular.module("main.directives")
                     lcSide: "@",
                     lcModel: "=",
                     lcStatic: "=",
-                    lcEnemies: "="
+                    lcTeams: "=",
+                    lcRemove: "=",
+                    lcIndex: "="
                 },
                 link: lcChampionRowLinkFn
             };

@@ -1,21 +1,46 @@
+<section class="quick-select"
+         layout="row"
+         layout-align="center start">
+    <div class="quick-select-blue"
+         flex="50">
+        <lc-quick-select 
+            lc-side="blue"
+            lc-static="static"
+            lc-model="selection"></lc-quick-select>
+    </div>
+    <div class="quick-select-red"
+         flex="50">
+        <lc-quick-select 
+            lc-side="red"
+            lc-static="static"
+            lc-model="selection"></lc-quick-select>
+    </div>
+</section>
+
 <section class="champ-selection"
          layout="row"
          layout-align="center start">
     <div class="champ-list md-whiteframe-z2"
          layout="column">
-        <lc-champion-row ng-repeat="obj in selection.model.blue"
-                         lc-side="blue"
-                         lc-model="obj"
-                         lc-enemies="selection.model.red"
-                         lc-static="static"></lc-champion-row>
+        <lc-champion-row 
+            ng-repeat="obj in selection.model.blue"
+            lc-side="blue"
+            lc-model="obj"
+            lc-teams="selection.model"
+            lc-remove="selection.remove"
+            lc-index="$index"
+            lc-static="static"></lc-champion-row>
     </div>
     <div class="champ-list md-whiteframe-z2"
          layout="column">
-        <lc-champion-row ng-repeat="obj in selection.model.red"
-                         lc-side="red"
-                         lc-model="obj"
-                         lc-enemies="selection.model.blue"
-                         lc-static="static"></lc-champion-row>
+        <lc-champion-row 
+            ng-repeat="obj in selection.model.red"
+            lc-side="red"
+            lc-model="obj"
+            lc-teams="selection.model"
+            lc-remove="selection.remove"
+            lc-index="$index"
+            lc-static="static"></lc-champion-row>
     </div>
 
 </section>

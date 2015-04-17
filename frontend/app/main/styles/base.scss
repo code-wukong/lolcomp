@@ -93,7 +93,6 @@ $font-title: 'Questrial';
 
 /*** GLOBAL ***/
 body {
-    background-color: $color-primary;
     font-family: $font-title;
 }
 
@@ -120,6 +119,7 @@ body {
     width: 90%;
     margin-top: -30px;
     
+    border-radius: 4px;
     background-color: #000;
     @include box-shadow(0 2px 5px 0 rgba(0,0,0,.26));
     
@@ -132,6 +132,7 @@ body {
     height: 40px;
     width: 100%;
     margin-top: 0;
+    border-bottom: 1px solid #1a1a1a;
     
     z-index: 9000;
 }

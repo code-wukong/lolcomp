@@ -22,27 +22,47 @@ angular.module('main.controllers')
                         return date.getFullYear();
                     },
                     ddragon_url: function (api, info) {
-                        var api_url, extension;
+                        if(info.key === "") return false;
+                        
+                        var api_url, extension, full_filename;
                         var show_version = true;
                         var show_skin = false;
                         switch (api) {
                             case "square":
                                 api_url = "champion/";
                                 extension = ".png";
-                                if(info.champ === "MonkeyKing")
+                                if(info.key === "MonkeyKing")
                                     return cst.static_url + '/static/img/CodeMonkeyKing.jpg';
                                 break;
                             case "loading":
                                 api_url = "champion/loading/";
                                 extension = ".jpg"
                                 show_version = false;
-                                if(info.champ === "MonkeyKing")
+                                show_skin = true;
+                                info.skin = 0;
+                                if(info.key === "MonkeyKing"){
                                     info.skin = 2;
-                                    show_skin = true;
+                                }
                                 break;
                             case "spell":
-                                api_url = "spell/";
-                                extension = ".png";
+                                var static_info = cst.static_data.data[info.key];
+                                var api_url = "spell/";
+                                var index;
+                                switch(info.spell){
+                                    case 'Q': // Q
+                                        index = 0; break;
+                                    case 'W': // W
+                                        index = 1; break;
+                                    case 'E': // E
+                                        index = 2; break;
+                                    case 'R': // R
+                                        index = 3; break;
+                                    case 'Passive': // Passive
+                                        api_url = "passive/";
+                                        break;
+                                }
+                                full_filename = (index > -1 ? static_info.spells[index].image.full : static_info.passive.image.full);
+                                extension = "";
                                 break;
                             default:
                                 console.log("incorrect ddragon api")
@@ -51,7 +71,7 @@ angular.module('main.controllers')
                                  + (show_version ? cst.static_data.version+'/' : '')
                                  + "img/"
                                  + api_url
-                                 + info.champ
+                                 + (full_filename ? full_filename : info.key)
                                  + (show_skin ? '_'+info.skin : '')
                                  + extension
                         return url;
