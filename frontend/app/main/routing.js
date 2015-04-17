@@ -5,6 +5,7 @@ angular.module('main.routing')
 
                 .when('/', {
                     templateUrl: '_pages/home/home.html',
+                    controller: 'HomeCtrl'
                 })
                 
                 .otherwise({

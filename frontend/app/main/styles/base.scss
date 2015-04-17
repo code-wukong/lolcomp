@@ -1,10 +1,27 @@
+/*******************/
+/* Lolcomp Main App*/
+/*******************/
+
 /* definitions */
 $color-primary: #27586B;
+$color-blue: #1878FE;
+$color-red: #F73B13;
+$color-border: #000;
+$color-gray: #e6e6e6;
+$color-purple: #9C8AA5;
 
 $xs: 567px;
 $sm: 767px;
 $md: 991px;
 $lg: 1199px;
+
+
+$font-title: 'Questrial';
+
+/* fonts */
+@font-face {
+    font-family: 'Questrial', sans-serif;
+}
 
 
 /* mixins */
@@ -73,3 +90,9 @@ $lg: 1199px;
  * (cursor, overflow, z-index, animations)
  *
  */
+
+/*** GLOBAL ***/
+body {
+    background-color: $color-primary;
+    font-family: $font-title;
+}

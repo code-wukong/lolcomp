@@ -87,7 +87,11 @@ module.exports = function (grunt) {
                 files: {
                     'tmp/main.js': [
                         'frontend/vendor/angular/angular.min.js',
-                        'frontend/vendor/**/*.js',
+                        'frontend/vendor/angular-cookies/angular-cookies.min.js',
+                        'frontend/vendor/angular-route/angular-route.min.js',
+                        'frontend/vendor/angular-animate/angular-animate.min.js',
+                        'frontend/vendor/angular-aria/angular-aria.min.js',
+                        'frontend/vendor/angular-material/angular-material.min.js',
                         'frontend/app/main/app.js',
                         'tmp/main-templates.js',
                         'frontend/app/main/routing.js',
@@ -114,8 +118,8 @@ module.exports = function (grunt) {
             },
             "main-css": {
                 files: {
-                    'tmp/scss': [
-                        'frontend/vendor/**/*.css',
+                    'tmp/main.css': [
+                        'frontend/vendor/angular-material/angular-material.min.css',
                         'tmp/main.scss.css',
                     ]
                 }
@@ -304,7 +308,7 @@ module.exports = function (grunt) {
             "sitedown-dev": {
                 files: [
                     'Gruntfile.js',
-                    'frontend/**/*'
+                    'frontend/app/sitedown/**/*'
                 ],
                 tasks: [
                     'concat:sitedown-scss',
@@ -320,7 +324,7 @@ module.exports = function (grunt) {
             "sitedown-prod": {
                 files: [
                     'Gruntfile.js',
-                    'frontend/**/*'
+                    'frontend/app/sitedown/**/*'
                 ],
                 tasks: [
                     'concat:sitedown-scss',
@@ -336,7 +340,7 @@ module.exports = function (grunt) {
             "main-dev": {
                 files: [
                     'Gruntfile.js',
-                    'frontend/**/*'
+                    'frontend/app/main/**/*'
                 ],
                 tasks: [
                     'concat:main-scss',
@@ -352,7 +356,7 @@ module.exports = function (grunt) {
             "main-prod": {
                 files: [
                     'Gruntfile.js',
-                    'frontend/**/*'
+                    'frontend/app/main/**/*'
                 ],
                 tasks: [
                     'concat:main-scss',
@@ -368,7 +372,7 @@ module.exports = function (grunt) {
             "internal-dev": {
                 files: [
                     'Gruntfile.js',
-                    'frontend/**/*'
+                    'frontend/app/internal/**/*'
                 ],
                 tasks: [
                     'concat:internal-scss',
@@ -384,7 +388,7 @@ module.exports = function (grunt) {
             "internal-prod": {
                 files: [
                     'Gruntfile.js',
-                    'frontend/**/*'
+                    'frontend/app/internal/**/*'
                 ],
                 tasks: [
                     'concat:internal-scss',

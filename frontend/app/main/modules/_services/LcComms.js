@@ -1,6 +1,8 @@
 angular.module("main.services")
     .factory("LcComms", ["$http", '$q',
         function ($http, $q) {
+            var promise_ready;
+            
             var LcComms = {
                 call_ws: function (ws_url, post) {
                     var deferred = $q.defer();
@@ -17,8 +19,13 @@ angular.module("main.services")
                         deferred.reject(data);
                     })
 
-                    return deferred.promise;
+                    promise_ready = deferred.promise;
+                    return promise_ready;
+                }, 
+                is_ready: function () {
+                    return promise_ready;
                 }
+                
             };
 
             return LcComms;

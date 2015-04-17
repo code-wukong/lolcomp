@@ -69,9 +69,6 @@ def cst_internal(request):
             }
         }
         
-        if(post['test'] == 'wuju'):
-            data['compromised'] = True
-        
         return HttpResponse(json.dumps(data), content_type='application/json')
     else:
         return HttpResponseRedirect("/")
@@ -171,10 +168,10 @@ def update_champs_data(request):
             query_set = Static.objects.filter(label=CST['champ_data'])
             if(query_set):
                 static_obj = query_set[0]
-                static_obj.definition = json.dumps(champ_data['data'])
+                static_obj.definition = json.dumps(champ_data)
                 static_obj.save()
             else:
-                static_obj = Static(label=CST['champ_data'], definition=json.dumps(champ_data['data']))
+                static_obj = Static(label=CST['champ_data'], definition=json.dumps(champ_data))
                 static_obj.save()
         
             # overwrite the previous data

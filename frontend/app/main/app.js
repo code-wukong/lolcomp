@@ -5,6 +5,19 @@ var main = angular.module("main", [
     "main.directives",
     "main.services",
     "ngCookies",
+    "ngMaterial"
+]).config(["$mdThemingProvider",
+    function ($mdThemingProvider) {
+        // Extend the blue-grey theme with a few different colors
+        var neonRedMap = $mdThemingProvider.extendPalette('blue-grey', {
+            '500': '27586B'
+        });
+        // Register the new color palette map with the name <code>neonRed</code>
+        $mdThemingProvider.definePalette('neonRed', neonRedMap);
+        // Use that theme for the primary intentions
+        $mdThemingProvider.theme('default')
+            .primaryPalette('neonRed')
+    }
 ]).run(['$http', '$cookies',
     /*
      * https://docs.djangoproject.com/en/1.8/ref/csrf/

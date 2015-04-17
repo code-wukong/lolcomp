@@ -1,0 +1,73 @@
+
+.lc-synergy {
+    color: $color-purple;
+    span {
+        border-color: $color-purple !important;        
+    }
+}
+.lc-blue {
+    color: $color-blue;
+    span {
+        border-color: $color-blue !important;
+    }
+}
+.lc-red {
+    color: $color-red;
+    span {
+        border-color: $color-red !important;
+    }
+}
+.lc-black {
+    background-color: #000 !important;
+}
+.lc-img {
+    background-position-x: center;
+    background-repeat: no-repeat;
+    background-size: 80%;
+}
+.lc-active span {
+    border-bottom: 2px solid #fff;
+}
+
+.lc-info {
+    overflow: hidden;
+    .md-header {
+        display: none;
+    }
+}
+.lc-subnav {
+    text-align: center;
+    span {
+        padding: 10px;
+    }
+}
+.lc-info-content {
+    padding-top: 0 !important;
+}
+.lc-info-content,
+.lc-info-tabs,
+.lc-info-tab-content {
+    background-color: #000 !important;
+    color: #fff;
+}
+.lc-champ-row {
+    width: 500px;
+    border-top: 2px solid $color-border;
+    border-bottom: 2px solid $color-border;
+    background-color: #000;
+}
+
+.lc-info,
+.lc-img {
+    height: 0;
+    @include transition(all .6s);
+}
+.lc-expanded {
+    .lc-info,
+    .lc-img {
+        height: 243px !important;
+    }
+    .lc-info {
+        overflow-y: scroll;
+    }
+}

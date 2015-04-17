@@ -1,28 +1,39 @@
 angular.module('main.controllers')
-    .controller('ParentCtrl', ['$scope', 'LcComms',
+    .controller('HomeCtrl', ['$scope', 'LcComms',
         function ($scope, LcComms) {
             var cst;
-            
-            LcComms.call_ws("ws/cst_main", {"test": null})
-                .then(function (data) {
-                    cst = $scope.cst = data;
-                    initialize();
-                    console.log(data)
-                })
-                .catch(function (data) {
-                    console.log(data, "catch")
-                })
-                
-            var initialize = function () {
-                $scope.static = {
-                    get_url: function (resource) {
-                        return cst.static_url + '/static/' + resource;
-                    },
-                    get_year: function () {
-                        var date = new Date();
-                        return date.getFullYear();
-                    }
+            $scope.settings = {
+                loading: true
+            };
+            $scope.selection = {
+                schema: {
+                    champ: "MonkeyKing",
+                    expanded: false,
+                },
+                model: {
+                    blue: [],
+                    red: []
+                },
+                get_ready: function () {
+                    for(var i=0; i<5; ++i)
+                        this.model.blue.push(angular.copy(this.schema));
+                    for(var i=0; i<5; ++i)
+                        this.model.red.push(angular.copy(this.schema));
+
+                    return;
                 }
-            }
+            };
+
+            LcComms.is_ready().then(function (data) {
+                cst = data;
+                initialize();
+            })
+            .finally(function () {
+                $scope.settings.loading = false;
+            });
+            
+            var initialize = function () {
+                $scope.selection.get_ready();
+            };
 
         }]);

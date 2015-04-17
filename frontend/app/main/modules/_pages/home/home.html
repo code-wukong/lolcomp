@@ -1,1 +1,37 @@
-{{test}}
+
+<nav class="navbar"
+     layout="row">
+    <a class="navbar-item"
+         ng-repeat="item in navbar.model"
+         href="{{item.url}}"
+         ng-bind="item.text"></a>
+</nav>
+
+<section class="champ-selection"
+         layout="row"
+         layout-align="center start">
+    <div class="champ-list md-whiteframe-z2"
+         layout="column">
+        <lc-champion-row ng-repeat="obj in selection.model.blue"
+                         lc-side="blue"
+                         lc-model="obj"
+                         lc-ddragon="static.ddragon_url"></lc-champion-row>
+    </div>
+    <div class="champ-list md-whiteframe-z2"
+         layout="column">
+        <lc-champion-row ng-repeat="obj in selection.model.red"
+                         lc-side="red"
+                         lc-model="obj"
+                         lc-ddragon="static.ddragon_url"></lc-champion-row>
+    </div>
+
+</section>
+
+<div ng-show="settings.loading"
+     class="spinner">
+    <div class="rect1"></div>
+    <div class="rect2"></div>
+    <div class="rect3"></div>
+    <div class="rect4"></div>
+    <div class="rect5"></div>
+</div>
