@@ -1,20 +1,14 @@
-<section class="quick-select"
-         layout="row"
-         layout-align="center start">
-    <div class="quick-select-blue"
-         flex="50">
-        <lc-quick-select 
-            lc-side="blue"
-            lc-static="static"
-            lc-model="selection"></lc-quick-select>
+<section class="foreword"
+         layout="row">
+    <div flex="20"></div>
+    <div flex="60">
+        <h1>4/17/15</h1>
+        <p>Thank you for visiting Lolcomp.net! This is our alpha release. To use Lolcomp, first add champions to each team by using the search field above each list.</p>
+        <p><strong>Synergy</strong> will tell you all* mechanical interactions between the selected and its team members.</p>
+        <p><strong>Counters</strong> will tell you all* mechanical interactions between the selected and the entire enemy team</p>
+        <p>* Mechanical interactions are defined as <strong>relations</strong> on this website. These relations are created based off a set of rules than can be seen <a href="/rules/relations">Here</a>. (currently only 2 rules about channel skills, knockup, and synergy with Yasuo R)</p><a href="/about">Read more</a>
     </div>
-    <div class="quick-select-red"
-         flex="50">
-        <lc-quick-select 
-            lc-side="red"
-            lc-static="static"
-            lc-model="selection"></lc-quick-select>
-    </div>
+    <div flex="20"></div>
 </section>
 
 <section class="champ-selection"
@@ -22,6 +16,11 @@
          layout-align="center start">
     <div class="champ-list md-whiteframe-z2"
          layout="column">
+        <lc-quick-select
+            class="quick-select"
+            lc-side="blue"
+            lc-static="static"
+            lc-model="selection"></lc-quick-select>
         <lc-champion-row 
             ng-repeat="obj in selection.model.blue"
             lc-side="blue"
@@ -33,6 +32,11 @@
     </div>
     <div class="champ-list md-whiteframe-z2"
          layout="column">
+        <lc-quick-select 
+            class="quick-select"
+            lc-side="red"
+            lc-static="static"
+            lc-model="selection"></lc-quick-select>
         <lc-champion-row 
             ng-repeat="obj in selection.model.red"
             lc-side="red"

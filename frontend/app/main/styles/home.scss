@@ -1,5 +1,5 @@
-.quick-select {
-    margin: 20px;
+.foreword {
+    margin: 40px;
 }
 .champ-selection {
     lc-champion-row {
@@ -12,5 +12,8 @@
         
         border-radius: 4px;
         border: 10px solid $color-border;
+    }
+    .quick-select {
+        background-color: #000;
     }
 }
