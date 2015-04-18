@@ -205,7 +205,7 @@ def update_champs_data(request):
 
 # generate relation objects for each relation rule
 def apply_rules_to_db(request):
-    if request.method == 'POST':
+    if request.method == 'GET':
         data = {
             "status": 200
         }
@@ -219,7 +219,6 @@ def apply_rules_to_db(request):
             for rule in tag_defs:
                 new_tag = Tag(label=rule['label'], definition=json.dumps(rule))
                 new_tag.save()
-                #from ws.models import *;from lolcomp.helpers import *; import json
             # loop over each champion's skill and apply the tags accordingly
             for champ_obj in Champion.objects.all():
                 for skill in champ_obj.skill_set.all():
@@ -301,8 +300,16 @@ def apply_rules_to_db(request):
                     for skill_k2 in skill_obj_k2:
                             
                         rel_def = {
-                            skill_k1.champ.label: skill_k1.label,
-                            skill_k2.champ.label: skill_k2.label
+                            "label": rule['label'],
+                            "k1": {
+                                "name": skill_k1.champ.label,
+                                "key": skill_k1.key
+                            },
+                            "k2": {
+                                "name": skill_k2.champ.label,
+                                "key": skill_k2.key
+                            },
+                            'description': rule['description']
                         }
                         new_rule = Relation(definition=json.dumps(rel_def), type=rule['type'])
                         new_rule.save()
@@ -312,21 +319,20 @@ def apply_rules_to_db(request):
         # Build the relation map for each champ
         relation_map = {}
         for champ_obj in Champion.objects.all():
-            relation_map[champ_obj.label] = {}
+            # create a synergy and counter tree for each champion
+            relation_map[champ_obj.label] = {CST['synergy']:{}, CST['counter']:{}}
             for rel_obj in Relation.objects.filter(champs=champ_obj):
+                # add each relation to the correct type tree under the partner's name
                 info = json.loads(rel_obj.definition)
-                for label, skill in info.iteritems():
-                    if champ_obj.label == label:
-                        pass
-                    else:
-                        type_tree = relation_map[champ_obj.label].get(rel_obj.type, False)
-                        if(not type_tree):
-                            relation_map[champ_obj.label][rel_obj.type] = {}
-                            
-                        relation_list = relation_map[champ_obj.label][rel_obj.type].get(label, False)
-                        if (not relation_list):
-                            relation_map[champ_obj.label][rel_obj.type][label] = []
-                        relation_map[champ_obj.label][rel_obj.type][label].append(info)
+                if champ_obj.label == info['k1']['name']:
+                    other_champ_name = info['k2']['name']
+                else:
+                    other_champ_name = info['k1']['name']
+                    
+                relation_list = relation_map[champ_obj.label][rel_obj.type].get(other_champ_name, False)
+                if (not relation_list):
+                    relation_map[champ_obj.label][rel_obj.type][other_champ_name] = []
+                relation_map[champ_obj.label][rel_obj.type][other_champ_name].append(info)
                         
         # Write Lolcomp relation map to singleton
         prev = Static.objects.filter(label=CST['lolcomp_analyzed_champs'])

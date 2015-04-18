@@ -75,6 +75,9 @@
 .lc-info-content {
     padding-top: 0 !important;
 }
+.lc-info-tab-content {
+    border-bottom: 2px solid #1a1a1a;
+}
 .lc-info-content,
 .lc-info-tabs,
 .lc-info-tab-content {
@@ -109,5 +112,5 @@
 }
 
 .lc-breakdown-champ-title {
-    margin: 0;
+    margin: 40px 0 0 0;
 }

@@ -66,8 +66,15 @@
                         <md-content class="md-padding lc-info-tab-content">
                             <div ng-repeat="obj in settings.my_team">
                                 <div ng-if="obj.name && obj.name !== lcModel.name">
-                                    <h4 class="md-display-2 lc-breakdown-champ-title">with {{obj.name}}</h4>
-                                    <div ng-repeat="v in report.get_section(lcModel.name, obj.name, 'Synergy')">{{v}}</div>
+                                    <h4 class="md-display-2 lc-breakdown-champ-title"
+                                        layout="column">
+                                        <span>with {{obj.name}}</span>
+                                        <span ng-if="!report.model[lcModel.name]['Synergy'][obj.name]">None</span>
+                                    </h4>
+                                    <div class="relation-obj"
+                                         ng-repeat="v in report.get_section(lcModel.name, obj.name, 'Synergy')">
+                                        <div ng-bind-html="create_relation_elem(v)"></div>
+                                    </div>
                                 </div>
                             </div>
                         </md-content>
@@ -76,8 +83,17 @@
                             ng-click="toggle_expand(2)">
                         <md-content class="md-padding lc-info-tab-content">
                             <div ng-repeat="obj in settings.enemy_team">
-                                <h4 class="md-display-2 lc-breakdown-champ-title"
-                                    ng-if="obj.name">vs {{obj.name}}</h4>
+                                <div ng-if="obj.name && obj.name !== lcModel.name">
+                                    <h4 class="md-display-2 lc-breakdown-champ-title"
+                                        layout="column">
+                                        <span>vs {{obj.name}}</span>
+                                        <span ng-if="!report.model[lcModel.name]['Counter'][obj.name]">None</span>
+                                    </h4>
+                                    <div class="relation-obj"
+                                         ng-repeat="v in report.get_section(lcModel.name, obj.name, 'Counter')">
+                                        <div ng-bind-html="create_relation_elem(v)"></div>
+                                    </div>
+                                </div>
                             </div>
                         </md-content>
                     </md-tab>
@@ -88,8 +104,7 @@
         <div class="lc-other-team"
              ng-class="{'hide-cover' : lcSide==='red'}"
              flex-order="{{get_pos(4, 4)}}"
-             flex="10"
-             ng-click="lcModel.expanded = false; settings.selected = 0;">
+             flex="10">
             <div class="lc-skill-img"
                  ng-repeat="v in spells"
                  ng-style="{'background-image': images_url.spell(v)}"></div>

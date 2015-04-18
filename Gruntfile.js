@@ -91,6 +91,7 @@ module.exports = function (grunt) {
                         'frontend/vendor/angular-route/angular-route.min.js',
                         'frontend/vendor/angular-animate/angular-animate.min.js',
                         'frontend/vendor/angular-aria/angular-aria.min.js',
+                        'frontend/vendor/angular-sanitize/angular-sanitize.min.js',
                         'frontend/vendor/angular-material/angular-material.min.js',
                         'frontend/vendor/ng-scroll-spy/ngScrollSpy.min.js',
                         'frontend/app/main/app.js',

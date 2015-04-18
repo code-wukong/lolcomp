@@ -8,6 +8,9 @@ angular.module("main.directives")
                     var right_side = n + 1
                     return -i + right_side;
                 };
+                
+                
+                scope.test = "hello this is a <strong>test</strong>"
 
                 LcComms.is_ready().then(function (data) {
                     if(angular.isUndefined(scope.lcModel) === false){
@@ -21,7 +24,6 @@ angular.module("main.directives")
                         }
                     }
                 });
-                
                 var initialize = function () {
                     scope.settings = {
                         selected: 0,
@@ -36,13 +38,37 @@ angular.module("main.directives")
                             else
                                 return 'url('+scope.lcStatic.ddragon_url('loading', scope.lcModel)+')'
                         },
-                        spell: function (spell) {
+                        spell: function (spell, strip) {
                             if(scope.lcModel.key === '')
                                 return ''
-                            else
-                                return 'url('+scope.lcStatic.ddragon_url('spell', {key:scope.lcModel.key,spell:spell})+')'
-                        }
+                            else{
+                                return 'url('+scope.lcStatic.ddragon_url('spell', {key:scope.lcModel.key,spell:spell})+')';
+                            }
+                        },
                     };
+                    scope.create_spell_img = function (k_obj) {
+                        var name, url, element;
+                        if(k_obj.name === "Wukong")
+                            name = "MonkeyKing";
+                        else
+                            name = k_obj.name
+                        
+                        url = scope.lcStatic.ddragon_url('spell', {key:name,spell:k_obj.key});
+                        element = "<img class='lc-skill-img' src='"+url+"' title='"+k_obj.key+"'></img>";
+                        
+                        return element;
+                    };
+                    scope.create_relation_elem = function (rel_obj) {
+                        var img_k1 = scope.create_spell_img(rel_obj.k1);
+                        var img_k2 = scope.create_spell_img(rel_obj.k2);
+                        
+                        var element = angular.copy(rel_obj.description);
+                        element = element.replace('%label%', rel_obj.label);
+                        element = element.replace('%k1%', img_k1);
+                        element = element.replace('%k2%', img_k2);
+
+                        return element;
+                    }
                     scope.toggle_expand = function (type) {
                         if(scope.lcModel.key === '') return;
                         
