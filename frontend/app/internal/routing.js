@@ -18,6 +18,11 @@ angular.module('internal.routing')
                     controller: 'RelationsCtrl'
                 })
 
+                .when('/internal/msample', {
+                    templateUrl: '_pages/msample/msample.html',
+                    controller: 'MsampleCtrl'
+                })
+
                 .otherwise({
                     redirectTo: '/internal/champs'
                 });

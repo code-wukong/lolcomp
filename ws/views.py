@@ -205,7 +205,7 @@ def update_champs_data(request):
 
 # generate relation objects for each relation rule
 def apply_rules_to_db(request):
-    if request.method == 'GET':
+    if request.method == 'POST':
         data = {
             "status": 200
         }

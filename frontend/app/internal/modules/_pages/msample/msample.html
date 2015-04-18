@@ -1,0 +1,24 @@
+<md-content flex>
+    <md-toolbar class="md-theme-primary champs-content-toolbar">
+        <h1 class="md-toolbar-tools">Lolcomp - Edit Relations Rules</h1>
+    </md-toolbar>
+    <div layout="column"
+         layout-align="top center"
+         layout-fill>
+        <div class="relations-new-btn-container"
+             layout="row">
+            <md-button class="md-raised relations-button"
+                       ng-click="new_sample()">New sample</md-button>
+            <input class="input-date"
+                   type="date"
+                   ng-model="settings.date"></input>
+            
+        </div>
+        <lc-panel class="relations-lc-panel"
+                  ng-show="panels.relations.model.length !== 0"
+                  lc-title="panels.relations.title"
+                  layout-align="vertical" flex>
+            {{data.urf_match_records}}
+        </lc-panel>
+    </div>
+</md-content>

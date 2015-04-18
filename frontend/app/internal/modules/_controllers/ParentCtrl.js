@@ -44,6 +44,10 @@ angular.module('internal.controllers')
                             url: 'internal/relations',
                             new_page: false,
                         }, {
+                            label: 'Match Sample',
+                            url: 'internal/msample',
+                            new_page: false,
+                        }, {
                             label: 'Database Admin',
                             url: 'admin',
                             new_page: true,

@@ -18,11 +18,13 @@ CST = {
     'region': os.environ.get('DEFAULT_REGION', ''),
     'ver': os.environ.get('DEFAULT_VERSION', ''),
     'protocol': 'https',
-    'host': 'global.api.pvp.net'
+    'host': 'global.api.pvp.net',
+    'host_urf': 'na.api.pvp.net'
 }
 
 API = {
-    'static_data': CST['protocol']+'://'+CST['host']+'/api/lol/static-data/'+CST['region']+CST['ver']+'champion'
+    'static_data': CST['protocol']+'://'+CST['host']+'/api/lol/static-data/'+CST['region']+CST['ver']+'champion',
+    'api_challenge': CST['protocol']+'://'+CST['host_urf']+'/api/lol/'+CST['region']+'v4.1/game/ids'
 }
 
 # Helper Fn
