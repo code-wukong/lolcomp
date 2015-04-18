@@ -8,11 +8,9 @@ angular.module("main.directives")
                     var right_side = n + 1
                     return -i + right_side;
                 };
-                
-                
-                scope.test = "hello this is a <strong>test</strong>"
-
-                LcComms.is_ready().then(function (data) {
+                           
+            LcComms.call_ws("ws/cst_main", {"test": null})
+                .then(function (data) {
                     if(angular.isUndefined(scope.lcModel) === false){
                         initialize();
                         scope.report = {

@@ -6,12 +6,20 @@ angular.module('main.controllers')
             LcComms.call_ws("ws/cst_main", {"test": null})
                 .then(function (data) {
                     cst = $scope.cst = data;
-                    initialize();
                 })
                 .catch(function (data) {
                     console.log(data, "catch")
                 })
                 
+            var post = {
+                label: "champ_data",
+                mode: "read"
+            }
+            LcComms.call_ws("ws/rw_static_def", post)
+                .then(function (data) {
+                    $scope.static_data = data;
+                    initialize();
+                })
             var initialize = function () {
                 $scope.static = {
                     get_url: function (resource) {
@@ -45,7 +53,7 @@ angular.module('main.controllers')
                                 }
                                 break;
                             case "spell":
-                                var static_info = cst.static_data.data[info.key];
+                                var static_info = $scope.static_data.data[info.key];
                                 var api_url = "spell/";
                                 var index;
                                 switch(info.spell){
@@ -68,7 +76,7 @@ angular.module('main.controllers')
                                 console.log("incorrect ddragon api")
                         }
                         var url = "http://ddragon.leagueoflegends.com/cdn/" 
-                                 + (show_version ? cst.static_data.version+'/' : '')
+                                 + (show_version ? $scope.static_data.version+'/' : '')
                                  + "img/"
                                  + api_url
                                  + (full_filename ? full_filename : info.key)

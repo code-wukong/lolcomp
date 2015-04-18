@@ -9,11 +9,16 @@ angular.module("main.directives")
                     return -i + right_side;
                 };
 
-                LcComms.is_ready().then(function (data) {
+            var post = {
+                label: "champ_data",
+                mode: "read"
+            }
+            LcComms.call_ws("ws/rw_static_def", post)
+                .then(function (data) {
                     scope.all_champs = [];
-                    for(var i in data.static_data.data){
+                    for(var i in data.data){
                         scope.all_champs.push({
-                            name: data.static_data.data[i].name,
+                            name: data.data[i].name,
                             key: i
                         });
                     }

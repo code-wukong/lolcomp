@@ -38,17 +38,9 @@ def cst_main(request):
         else:
             report = 'error'
             
-        # Get Static Champ Data
-        query_set = Static.objects.filter(label=CST['champ_data'])
-        if(query_set):
-            champ_data = query_set[0].definition
-        else:
-            champ_data = 'error'
-            
         data = {
             'static_url': os.environ.get('DJANGO_STATIC_HOST', False),
             'lolcomp_report': report,
-            'static_data': json.loads(champ_data)
         }
         
         return HttpResponse(json.dumps(data), content_type='application/json')

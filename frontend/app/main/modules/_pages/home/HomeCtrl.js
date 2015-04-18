@@ -16,24 +16,25 @@ angular.module('main.controllers')
                     red: []
                 },
                 add: function (side, obj) {
-                    if(angular.isDefined(obj) !== true) return;
-                    
+                    if (angular.isDefined(obj) !== true)
+                        return;
+
                     var index = -1;
-                    for(var i=0; i<5; ++i) {
-                        if(this.model[side][i].key !== ''){
+                    for (var i = 0; i < 5; ++i) {
+                        if (this.model[side][i].key !== '') {
                             continue;
-                        }else{
+                        } else {
                             index = i;
                             break;
                         }
                     }
-                    if(index === -1){
+                    if (index === -1) {
                         LcAlerts.error('Cannot find empty spot');
                     }
-                    
+
                     var schema = angular.copy(this.schema);
                     schema.key = obj.key;
-                    schema.name = cst.static_data.data[obj.key].name;
+                    schema.name = cst.data[obj.key].name;
 
                     this.model[side][index] = schema;
                 },
@@ -41,26 +42,31 @@ angular.module('main.controllers')
                     $scope.selection.model[side][index] = angular.copy($scope.selection.schema);
                 },
                 get_ready: function () {
-                    for(var i=0; i<5; ++i)
+                    for (var i = 0; i < 5; ++i)
                         this.model.blue.push(angular.copy(this.schema));
-                    for(var i=0; i<5; ++i)
+                    for (var i = 0; i < 5; ++i)
                         this.model.red.push(angular.copy(this.schema));
 
                     return;
                 }
             };
 
-            LcComms.is_ready().then(function (data) {
-                cst = data;
-                initialize();
-            })
-            .finally(function () {
-                $scope.settings.loading = false;
-            });
-            
+            var post = {
+                label: "champ_data",
+                mode: "read"
+            }
+            LcComms.call_ws("ws/rw_static_def", post)
+                .then(function (data) {
+                    cst = data;
+                    initialize();
+                })
+                .finally(function () {
+                    $scope.settings.loading = false;
+                });
+
             var initialize = function () {
                 $scope.selection.get_ready();
-                
+
             };
 
         }]);
