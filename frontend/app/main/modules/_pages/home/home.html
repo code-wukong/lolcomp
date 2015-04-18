@@ -11,7 +11,14 @@
     <div flex="20"></div>
 </section>
 
+<section layout="row"
+    layout-align="center center"
+    ng-if="settings.loading">
+    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+</section>
+
 <section class="champ-selection"
+         ng-if="!settings.loading"
          layout="row"
          layout-align="center start">
     <div class="champ-list md-whiteframe-z2"
