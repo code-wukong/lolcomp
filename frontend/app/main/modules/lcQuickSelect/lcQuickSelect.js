@@ -1,37 +1,36 @@
 angular.module("main.directives")
-    .factory("lcQuickSelectLinkFn", ["LcComms",
-        function (LcComms) {
+    .factory("lcQuickSelectLinkFn", ["LcComms", "LcCache",
+        function (LcComms, LcCache) {
             return function (scope, elem, attrs) {
                 scope.get_pos = function (i, n) {
-                    if (scope.lcSide === 'blue') return i;
-                    
+                    if (scope.lcSide === 'blue')
+                        return i;
+
                     var right_side = n + 1
                     return -i + right_side;
                 };
 
-            var post = {
-                label: "champ_data",
-                mode: "read"
-            }
-            LcComms.call_ws("ws/rw_static_def", post)
-                .then(function (data) {
-                    scope.all_champs = [];
-                    for(var i in data.data){
-                        scope.all_champs.push({
-                            name: data.data[i].name,
-                            key: i
-                        });
-                    }
+                var post = {
+                    label: "champ_data",
+                    mode: "read"
+                }
+                LcComms.is_ready().then(function (data) {
+                    scope.all_champs = data.champ_list;
                     scope.settings = {
                         selected: "",
                         search_txt: "",
-                        on_select: function (obj) {
-                            scope.lcModel.add(scope.lcSide, obj);
-                            scope.settings.search_txt = "";
+                        on_select: function (name) {
+                            if(angular.isUndefined(name) === true)
+                                return;
+                            
+                            LcCache.get(name).then(function (data) {
+                                scope.lcModel.add(scope.lcSide, name);
+                                scope.settings.search_txt = "";
+                            })
                         }
                     };
                     scope.square_url = function (key) {
-                        return 'url(' + scope.lcStatic.ddragon_url('square', {champ:key}) +') left top';
+                        return 'url(' + scope.lcStatic.ddragon_url('square', {champ: key}) + ') left top';
                     }
                 });
             };

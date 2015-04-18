@@ -37,7 +37,7 @@
          layout="row"
          layout-align="center start">
         <div class="lc-img"
-             ng-style="{'background-image': images_url.champ()}"
+             ng-style="{'background-image': settings.background_urls.champ}"
              flex-order="{{get_pos(2, 4)}}"
              flex="30"
              ng-click="lcModel.expanded = false; settings.selected = 0;">
@@ -69,10 +69,10 @@
                                     <h4 class="md-display-2 lc-breakdown-champ-title"
                                         layout="column">
                                         <span>with {{obj.name}}</span>
-                                        <span ng-if="!report.model[lcModel.name]['Synergy'][obj.name]">None</span>
+                                        <span ng-if="!settings.synergy[obj.name]">None</span>
                                     </h4>
                                     <div class="relation-obj"
-                                         ng-repeat="v in report.get_section(lcModel.name, obj.name, 'Synergy')">
+                                         ng-repeat="v in settings.synergy[obj.name]">
                                         <div ng-bind-html="create_relation_elem(v)"></div>
                                     </div>
                                 </div>
@@ -107,7 +107,7 @@
              flex="10">
             <div class="lc-skill-img"
                  ng-repeat="v in spells"
-                 ng-style="{'background-image': images_url.spell(v)}"></div>
+                 ng-style="{'background-image': settings.background_urls[v]}"></div>
         </div>
 
         <div flex></div>

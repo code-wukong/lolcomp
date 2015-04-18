@@ -5,14 +5,14 @@ import os, re, json
 
 # CONSTANTS
 CST = {
-    'lolcomp_analyzed_champs': 'Lolcomp_Analyzed_Champs',
     'config': 'Config',
-    'champ_data': 'Champ_Data',
+    'champ_list': 'Champ_List',
     'tag_defs': 'Tag_Definitions',
     'relation_defs': 'Relation_Definitions',
     'urf_matches': 'Urf_Matches',
     'synergy': 'Synergy',
     'counter': 'Counter',
+    'static': 'Static',
     'tag': 'Tag',
     'exception': 'Exception',
     'region': os.environ.get('DEFAULT_REGION', ''),

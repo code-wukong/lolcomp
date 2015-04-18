@@ -2,12 +2,15 @@ angular.module('main.controllers')
     .controller('HomeCtrl', ['$scope', 'LcComms', 'LcAlerts',
         function ($scope, LcComms, LcAlerts) {
             var cst;
+            LcComms.is_ready().then(function (data) {
+                $scope.selection.get_ready();
+            });
+            
             $scope.settings = {
                 loading: true
             };
             $scope.selection = {
                 schema: {
-                    key: "",
                     name: "",
                     expanded: false,
                 },
@@ -15,26 +18,25 @@ angular.module('main.controllers')
                     blue: [],
                     red: []
                 },
-                add: function (side, obj) {
-                    if (angular.isDefined(obj) !== true)
+                add: function (side, name) {
+                    if (angular.isDefined(name) !== true)
                         return;
 
                     var index = -1;
                     for (var i = 0; i < 5; ++i) {
-                        if (this.model[side][i].key !== '') {
+                        if (this.model[side][i].name !== '') {
                             continue;
                         } else {
                             index = i;
                             break;
                         }
                     }
-                    if (index === -1) {
+                    if (index == -1) {
                         LcAlerts.error('Cannot find empty spot');
                     }
 
                     var schema = angular.copy(this.schema);
-                    schema.key = obj.key;
-                    schema.name = cst.data[obj.key].name;
+                    schema.name = name;
 
                     this.model[side][index] = schema;
                 },
@@ -46,27 +48,10 @@ angular.module('main.controllers')
                         this.model.blue.push(angular.copy(this.schema));
                     for (var i = 0; i < 5; ++i)
                         this.model.red.push(angular.copy(this.schema));
-
+                    
+                    $scope.settings.loading = false;
                     return;
                 }
-            };
-
-            var post = {
-                label: "champ_data",
-                mode: "read"
-            }
-            LcComms.call_ws("ws/rw_static_def", post)
-                .then(function (data) {
-                    cst = data;
-                    initialize();
-                })
-                .finally(function () {
-                    $scope.settings.loading = false;
-                });
-
-            var initialize = function () {
-                $scope.selection.get_ready();
-
             };
 
         }]);

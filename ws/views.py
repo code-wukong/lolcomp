@@ -31,16 +31,24 @@ def cst_sitedown(request):
 def cst_main(request):
     if request.method == 'POST':
         
-        # Get Lolcomp Analysis Report
-        query_set = Static.objects.filter(label=CST['lolcomp_analyzed_champs'])
+        # Get Version
+        query_set = Static.objects.filter(label=CST['config'])
         if(query_set):
-            report = json.loads(query_set[0].definition)
+            version = json.loads(query_set[0].definition)['current_patch']
         else:
-            report = 'error'
+            version = 'error'
+            
+        # Get Champ List
+        query_set = Static.objects.filter(label=CST['champ_list'])
+        if(query_set):
+            champ_list = json.loads(query_set[0].definition)
+        else:
+            champ_list = 'error'
             
         data = {
             'static_url': os.environ.get('DJANGO_STATIC_HOST', False),
-            'lolcomp_report': report,
+            'champ_list': champ_list,
+            'version': version
         }
         
         return HttpResponse(json.dumps(data), content_type='application/json')
@@ -136,6 +144,27 @@ def riot_api_request(request):
         return HttpResponseRedirect("/")
     
     
+# get champ_obj definitions for each champ in list
+def get_champs_data(request):
+    if request.method == 'POST':
+        post = json.loads(request.body)
+        champs_to_retrieve = post['champs']
+        
+        list_to_return = []
+        for i in champs_to_retrieve:
+            champ_obj = Champion.objects.get(label=i)
+            info = json.loads(champ_obj.definition)
+            list_to_return.append(info)
+
+        data = {
+            'data': list_to_return
+        }
+        
+        return HttpResponse(json.dumps(data), content_type='application/json')
+    else:
+        return HttpResponseRedirect("/")
+    
+    
 # update the static data champ singleton
 def update_champs_data(request):
     if request.method == 'POST':
@@ -147,23 +176,26 @@ def update_champs_data(request):
 
         url = API['static_data']
         r = requests.get(url, params=settings)
-        champ_data = r.json()
+        static = r.json()
 
         data = {
             'status': r.status_code,
-            'patch': champ_data.get('version', 'error'),
+            'patch': static.get('version', 'error'),
         }
         if data['patch'] == 'error':
             data['response'] = r.json()
         else:
             # Record to DB
-            query_set = Static.objects.filter(label=CST['champ_data'])
+            champ_list = []
+            for i in static['data']:
+                champ_list.append(static['data'][i]['name'])
+            query_set = Static.objects.filter(label=CST['champ_list'])
             if(query_set):
                 static_obj = query_set[0]
-                static_obj.definition = json.dumps(champ_data)
+                static_obj.definition = json.dumps(champ_list)
                 static_obj.save()
             else:
-                static_obj = Static(label=CST['champ_data'], definition=json.dumps(champ_data))
+                static_obj = Static(label=CST['champ_list'], definition=json.dumps(champ_list))
                 static_obj.save()
         
             # overwrite the previous data
@@ -175,8 +207,21 @@ def update_champs_data(request):
             if skill_db:
                 skill_db.delete()
             
-            for info in champ_data['data'].itervalues():
-                obj = Champion(label=info['name'], definition=json.dumps(info))
+            for info in static['data'].itervalues():
+                definition = {
+                    CST['static']:{
+                        'name': info['name'],
+                        'key': info['key'],
+                        'image': info['image'],
+                        'skins': info['skins'],
+                        'spells': info['spells'],
+                        'passive': info['passive'],
+                        'partype': info['partype'],
+                    },
+                    CST['synergy']: {},
+                    CST['counter']: {}
+                }
+                obj = Champion(label=info['name'], definition=json.dumps(definition))
                 obj.save()
                 map = ["Q", "W", "E", "R"]
                 for i, skill in enumerate(info['spells']):
@@ -309,10 +354,9 @@ def apply_rules_to_db(request):
                         new_rule.champs.add(skill_k2.champ)  
                         
         # Build the relation map for each champ
-        relation_map = {}
         for champ_obj in Champion.objects.all():
             # create a synergy and counter tree for each champion
-            relation_map[champ_obj.label] = {CST['synergy']:{}, CST['counter']:{}}
+            definition = json.loads(champ_obj.definition)
             for rel_obj in Relation.objects.filter(champs=champ_obj):
                 # add each relation to the correct type tree under the partner's name
                 info = json.loads(rel_obj.definition)
@@ -321,17 +365,15 @@ def apply_rules_to_db(request):
                 else:
                     other_champ_name = info['k1']['name']
                     
-                relation_list = relation_map[champ_obj.label][rel_obj.type].get(other_champ_name, False)
+                    
+                relation_list = definition[rel_obj.type].get(other_champ_name, False)
                 if (not relation_list):
-                    relation_map[champ_obj.label][rel_obj.type][other_champ_name] = []
-                relation_map[champ_obj.label][rel_obj.type][other_champ_name].append(info)
-                        
-        # Write Lolcomp relation map to singleton
-        prev = Static.objects.filter(label=CST['lolcomp_analyzed_champs'])
-        if(prev):
-            prev[0].delete()
-        report = Static(label=CST['lolcomp_analyzed_champs'], definition=json.dumps(relation_map))
-        report.save()
+                    definition[rel_obj.type][other_champ_name] = []
+                definition[rel_obj.type][other_champ_name].append(info)
+            
+            # record to champ_obj definition
+            champ_obj.definition = json.dumps(definition)
+            champ_obj.save()
                         
         return HttpResponse(json.dumps(data), content_type='application/json')
     else:

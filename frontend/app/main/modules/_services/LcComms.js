@@ -4,7 +4,7 @@ angular.module("main.services")
             var promise_ready;
             
             var LcComms = {
-                call_ws: function (ws_url, post) {
+                send_request: function (ws_url, post) {
                     var deferred = $q.defer();
 
                     $http({

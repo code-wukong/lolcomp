@@ -5,13 +5,13 @@
         flex-order="{{get_pos(1, 3)}}"
         md-selected-item="settings.selected"
         md-search-text="settings.search_txt"
-        md-items="obj in all_champs | filter:settings.search_txt"
-        md-selected-item-change="settings.on_select(obj)"
-        md-item-text="obj.name"
+        md-items="name in all_champs | filter:settings.search_txt"
+        md-selected-item-change="settings.on_select(name)"
+        md-item-text="name"
         placeholder="Search..">
         <span class="lc-champ-search-highlight"
               md-highlight-text="settings.search_txt"
-              md-highlight-flags="^i">{{obj.name}}</span>
+              md-highlight-flags="^i">{{name}}</span>
     </md-autocomplete>
     <div flex="33"
          flex-order="{{get_pos(2, 3)}}"></div>
