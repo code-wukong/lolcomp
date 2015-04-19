@@ -19,9 +19,9 @@
             <span ng-if="settings.loading"
                   layout="row"
                   layout-align="center center">
-                <md-progress-linear
+                <md-progress-circular
                     class="lc-subnav-spinner md-accent"
-                    md-mode="indeterminate"></md-progress-linear>
+                    md-mode="indeterminate"></md-progress-circular>
             </span>
         </div>
         <div class="lc-subnav-btn lc-synergy"
@@ -98,7 +98,7 @@
                                         <span ng-if="!report.model[lcModel.name]['Counter'][obj.name]">None</span>
                                     </h4>
                                     <div class="relation-obj"
-                                         ng-repeat="v in report.get_section(lcModel.name, obj.name, 'Counter')">
+                                         ng-repeat="v in settings.counter[obj.name]">
                                         <div ng-bind-html="create_relation_elem(v)"></div>
                                     </div>
                                 </div>

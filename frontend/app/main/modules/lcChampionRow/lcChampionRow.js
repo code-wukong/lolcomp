@@ -99,7 +99,7 @@ angular.module("main.directives")
                     element = element.replace('%k2%', img_k2);
 
                     return element;
-                }
+                };
                 scope.toggle_expand = function (type) {
                     if (scope.lcModel.key === '')
                         return;

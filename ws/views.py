@@ -353,6 +353,14 @@ def apply_rules_to_db(request):
                         new_rule.champs.add(skill_k1.champ)
                         new_rule.champs.add(skill_k2.champ)  
                         
+        # Clear the old synergy and counter maps
+        for champ_obj in Champion.objects.all():
+            definition = json.loads(champ_obj.definition)
+            definition[CST['synergy']] = {}
+            definition[CST['counter']] = {}
+            champ_obj.definition = json.dumps(definition)
+            champ_obj.save()
+                        
         # Build the relation map for each champ
         for champ_obj in Champion.objects.all():
             # create a synergy and counter tree for each champion
