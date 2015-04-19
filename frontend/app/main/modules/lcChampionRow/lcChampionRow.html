@@ -95,7 +95,7 @@
                                     <h4 class="md-display-2 lc-breakdown-champ-title"
                                         layout="column">
                                         <span>vs {{obj.name}}</span>
-                                        <span ng-if="!report.model[lcModel.name]['Counter'][obj.name]">None</span>
+                                        <span ng-if="!settings.counter[obj.name]">None</span>
                                     </h4>
                                     <div class="relation-obj"
                                          ng-repeat="v in settings.counter[obj.name]">

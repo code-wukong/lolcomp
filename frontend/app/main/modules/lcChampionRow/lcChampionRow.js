@@ -101,7 +101,7 @@ angular.module("main.directives")
                     return element;
                 };
                 scope.toggle_expand = function (type) {
-                    if (scope.lcModel.key === '')
+                    if (scope.lcModel.name === '')
                         return;
 
                     if (scope.lcModel.expanded === true) {
@@ -121,24 +121,7 @@ angular.module("main.directives")
                         angular.element(elem.children()[1].children[1])[0].scrollTop = 0;
                     }
                 };
-//                var initialize = function () {
-//                    scope.images_url = {
-//                        champ: function () {
-//                            if (scope.lcModel.key === '')
-//                                return ''
-//                            else
-//                                return 'url(' + scope.lcStatic.ddragon_url('loading', scope.lcModel) + ')'
-//                        },
-//                        spell: function (spell) {
-//                            if (scope.lcModel.key === '')
-//                                return ''
-//                            else {
-//                                return 'url(' + scope.lcStatic.ddragon_url('spell', {key: 'MonkeyKing', spell: spell}) + ')';
-//                            }
-//                        },
-//                    };
-//                    
-//                }
+                
             };
         }])
     .directive("lcChampionRow", ["lcChampionRowLinkFn",
