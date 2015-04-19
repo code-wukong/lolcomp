@@ -12,11 +12,13 @@ angular.module("main.directives")
                     selected: 0,
                     synergy: null,
                     counter: null,
+                    loading: false,
                     background_urls: null,
                     my_team: (scope.lcSide === 'blue' ? scope.lcTeams.blue : scope.lcTeams.red),
                     enemy_team: (scope.lcSide === 'blue' ? scope.lcTeams.red : scope.lcTeams.blue),
                 };
                 if (scope.lcModel.name !== '') {
+                    scope.settings.loading = true;
                     LcCache.get(scope.lcModel.name)
                         .then(function (data) {
                             var static = data.Static;
@@ -36,6 +38,9 @@ angular.module("main.directives")
                                 Passive: get_url("passive", static.passive.image.full)
                             }
                         })
+                        .finally(function () {
+                            scope.settings.loading = false;
+                        });
                 }
 
                 // helpers

@@ -4,26 +4,34 @@
         md-scroll-shrink
         layout="row"
         layout-align="center center">
-        <div class="remove-champ"
+        <div class="lc-subnav-btn remove-champ"
              flex="10"
              flex-order="{{get_pos(1, 4)}}">
             <span class="icon-cross"
                   ng-click="lcRemove(lcSide, lcIndex)"></span>
         </div>
-        <div class="lc-champ-title"
+        <div class="lc-subnav-btn lc-champ-title"
              flex="30"
              flex-order="{{get_pos(2, 4)}}"
              ng-class="{'lc-active' : settings.selected === 0 && lcModel.expanded === true}"
              ng-click="toggle_expand(0)">
-            <span>{{lcModel.name || '-'}}</span>
+            <span ng-if="!settings.loading">{{lcModel.name || '-'}}</span>
+            <span ng-if="settings.loading"
+                  layout="row"
+                  layout-align="center center">
+                <md-progress-linear
+                    class="lc-subnav-spinner md-accent"
+                    md-mode="indeterminate"></md-progress-linear>
+            </span>
         </div>
-        <div flex="30"
+        <div class="lc-subnav-btn lc-synergy"
+             flex="30"
              flex-order="{{get_pos(3, 4)}}"
              ng-class="{'lc-active' : settings.selected === 1}"
-             class="lc-synergy"
              ng-click="toggle_expand(1)">
             <span>Synergy</span></div>
-        <div flex="30"
+        <div class="lc-subnav-btn"
+             flex="30"
              flex-order="{{get_pos(4, 4)}}"
              ng-class="{'lc-active' : settings.selected === 2,
              'lc-blue' : lcSide==='blue',

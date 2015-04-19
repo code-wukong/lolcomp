@@ -14,7 +14,7 @@
           layout="column"
           layout-fill
           layout-align="start center">
-
+    <md-content>
         <section class="top-fold"
                  layout="row"
                  layout-align="center center">
@@ -29,21 +29,26 @@
                 LOLCOMP
             </div>
             <div flex="33"></div>
-            
-        </section>
-        
-    <nav class="navbar"
-         affix
-         layout="row"
-         layout-align="start center">
-        <a class="navbar-item"
-           ng-repeat="item in navbar.model"
-           href="{{item.url}}"
-           ng-bind="item.text"></a>
-    </nav>
 
-    <ng-view flex></ng-view>
-    
+        </section>
+
+        <nav class="navbar"
+             affix
+             layout="row"
+             layout-align="start center">
+            <div>
+                <a class="navbar-item"
+                   ng-repeat="item in navbar.model"
+                   ng-click="navbar.go_to(item.url)"
+                   ng-bind="item.text"></a>
+            </div>
+        </nav>
+
+        <ng-view flex
+                 layout-fill></ng-view>
+
+        <div class="gap"></div>
+    </md-content>
 
     <script src="{% static 'main.min.js' %}"></script>
 </body>

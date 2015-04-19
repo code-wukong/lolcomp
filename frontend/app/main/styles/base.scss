@@ -117,9 +117,10 @@ body {
 .navbar {
     height: 64px;
     width: 90%;
+    margin: auto;
     margin-top: -30px;
-    
     border-radius: 4px;
+    
     background-color: #000;
     @include box-shadow(0 2px 5px 0 rgba(0,0,0,.26));
     
@@ -132,15 +133,25 @@ body {
     height: 40px;
     width: 100%;
     margin-top: 0;
+    
+    border-radius: 0px;
     border-bottom: 1px solid #1a1a1a;
     
     z-index: 9000;
+    
+    .navbar-item {
+        padding: 10px;
+    }
 }
 .navbar-item {
-    padding: 0 20px;
-
+    padding: 21px;
+        
     font-size: 20px;
     color: #fff;
 
+    cursor: hand;
+    cursor: pointer;
+    
+    z-index: 1000;
     text-decoration: none;
 }

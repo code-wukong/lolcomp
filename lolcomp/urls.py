@@ -22,6 +22,6 @@ else:
         url(r'^internal/', include('internal.urls')),
         url(r'^login/', 'django.contrib.auth.views.login', {'template_name': 'views/login.html'}),
         url(r'^logout/', 'django.contrib.auth.views.logout', {'next_page': '/'}),
-        url(r'^$', include('main.urls')),
+        url(r'.*', include('main.urls')),
     ]
 

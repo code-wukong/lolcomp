@@ -1,6 +1,6 @@
 angular.module('main.controllers')
-    .controller('ParentCtrl', ['$scope', 'LcComms',
-        function ($scope, LcComms) {
+    .controller('ParentCtrl', ['$scope', 'LcComms', '$location',
+        function ($scope, LcComms, $location) {
             var cst;
             
             LcComms.send_request("ws/cst_main", {"test": null})
@@ -44,7 +44,7 @@ angular.module('main.controllers')
                                 show_version = true;
                                 break;
                         }
-                        var url = "http://ddragon.leagueoflegends.com/cdn/" 
+                        var url = "https://ddragon.leagueoflegends.com/cdn/" 
                                  + (show_version ? cst.version+'/' : '')
                                  + "img/"
                                  + api_url
@@ -60,7 +60,10 @@ angular.module('main.controllers')
                     }, {
                         text: "About",
                         url: "/about"
-                    }]
+                    }],
+                    go_to: function (url) {
+                        $location.path(url);
+                    }
                 }
             }
 

@@ -11,14 +11,19 @@ var main = angular.module("main", [
 ]).config(["$mdThemingProvider",
     function ($mdThemingProvider) {
         // Extend the blue-grey theme with a few different colors
-        var neonRedMap = $mdThemingProvider.extendPalette('blue-grey', {
+        var lolcomp_primary = $mdThemingProvider.extendPalette('blue-grey', {
             '500': '27586B'
         });
-        // Register the new color palette map with the name <code>neonRed</code>
-        $mdThemingProvider.definePalette('neonRed', neonRedMap);
-        // Use that theme for the primary intentions
+        var lolcomp_accent = $mdThemingProvider.extendPalette('blue-grey', {
+            '500': 'FFFFFF'
+        });
+        // Register the new color palette maps
+        $mdThemingProvider.definePalette('lolcomp_primary', lolcomp_primary);
+        $mdThemingProvider.definePalette('lolcomp_accent', lolcomp_accent);
+        // Use that theme for the primary and accent intentions
         $mdThemingProvider.theme('default')
-            .primaryPalette('neonRed')
+            .primaryPalette('lolcomp_primary')
+            .accentPalette('lolcomp_accent')
     }
 ]).run(['$http', '$cookies',
     /*

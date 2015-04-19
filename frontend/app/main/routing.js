@@ -8,6 +8,11 @@ angular.module('main.routing')
                     controller: 'HomeCtrl'
                 })
                 
+                .when('/about', {
+                    templateUrl: '_pages/about/about.html',
+                    controller: 'AboutCtrl'
+                })
+                
                 .otherwise({
                     redirectTo: '/'
                 });
