@@ -1,6 +1,6 @@
 angular.module("main.directives")
-    .factory("lcQuickSelectLinkFn", ["LcComms", "LcCache",
-        function (LcComms, LcCache) {
+    .factory("lcQuickSelectLinkFn", ["LcComms",
+        function (LcComms) {
             return function (scope, elem, attrs) {
                 scope.get_pos = function (i, n) {
                     if (scope.lcSide === 'blue')
@@ -23,10 +23,8 @@ angular.module("main.directives")
                             if(angular.isUndefined(name) === true)
                                 return;
                             
-                            LcCache.get(name).then(function (data) {
-                                scope.lcModel.add(scope.lcSide, name);
-                                scope.settings.search_txt = "";
-                            })
+                            scope.lcModel.add(scope.lcSide, name);
+                            scope.settings.search_txt = "";
                         }
                     };
                     scope.square_url = function (key) {

@@ -5,7 +5,7 @@ angular.module("main.directives")
                 var cst;
                 LcComms.is_ready().then(function (data) {
                     cst = data;
-                })
+                });
 
                 // model data
                 scope.settings = {
@@ -18,7 +18,6 @@ angular.module("main.directives")
                     enemy_team: (scope.lcSide === 'blue' ? scope.lcTeams.red : scope.lcTeams.blue),
                 };
                 if (scope.lcModel.name !== '') {
-                    scope.settings.loading = true;
                     LcCache.get(scope.lcModel.name)
                         .then(function (data) {
                             var static = data.Static;
@@ -38,10 +37,14 @@ angular.module("main.directives")
                                 Passive: get_url("passive", static.passive.image.full)
                             }
                         })
-                        .finally(function () {
-                            scope.settings.loading = false;
-                        });
                 }
+
+                // a new champion has been selected
+                scope.$on('lc-champ-row-loading', function (e, data) {
+                    if(data.side===scope.lcSide && data.index===scope.lcIndex){
+                        scope.settings.loading = !scope.settings.loading;
+                    }
+                })
 
                 // helpers
                 scope.spells = ['Passive', 'Q', 'W', 'E', 'R'];

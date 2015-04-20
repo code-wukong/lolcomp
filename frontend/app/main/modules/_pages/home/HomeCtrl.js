@@ -1,11 +1,21 @@
 angular.module('main.controllers')
-    .controller('HomeCtrl', ['$scope', 'LcComms', 'LcAlerts',
-        function ($scope, LcComms, LcAlerts) {
+    .controller('HomeCtrl', ['$scope', 'LcComms', 'LcAlerts', 'LcCache', '$rootScope',
+        function ($scope, LcComms, LcAlerts, LcCache, $rootScope) {
             var cst;
             LcComms.is_ready().then(function (data) {
                 $scope.selection.get_ready();
             });
-            
+            var safe_apply = function (fn) {
+                // Adapted from: https://coderwall.com/p/ngisma/safe-apply-in-angular-js
+                var phase = $rootScope.$$phase;
+                if (phase == '$apply' || phase == '$digest') {
+                    if (fn && (typeof (fn) === 'function')) {
+                        fn();
+                    }
+                } else {
+                    this.$apply(fn);
+                }
+            };
             $scope.settings = {
                 loading: true
             };
@@ -35,6 +45,18 @@ angular.module('main.controllers')
                         LcAlerts.error('Cannot find empty spot');
                     }
 
+                    var info = {
+                        index: index,
+                        name: name,
+                        side: side
+                    };
+                    safe_apply(function () {
+                        $rootScope.$broadcast('lc-champ-row-loading', info);
+                    });
+                    LcCache.get(name).then(safe_apply(function (data) {
+                        $rootScope.$broadcast('lc-champ-row-loading', info);
+                    }));
+                    
                     var schema = angular.copy(this.schema);
                     schema.name = name;
 
@@ -48,7 +70,7 @@ angular.module('main.controllers')
                         this.model.blue.push(angular.copy(this.schema));
                     for (var i = 0; i < 5; ++i)
                         this.model.red.push(angular.copy(this.schema));
-                    
+
                     $scope.settings.loading = false;
                     return;
                 }
